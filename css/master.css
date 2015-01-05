@@ -1,0 +1,443 @@
+.ui-body-a,
+.ui-bar-a,
+.ui-btn-up-a,
+.ui-btn-hover-a,
+.ui-btn-down-a,
+
+.ui-body-b,
+.ui-bar-b,
+.ui-btn-up-b,
+.ui-btn-hover-b,
+.ui-btn-down-b,
+
+.ui-body-c,
+.ui-bar-c,
+.ui-btn-up-c,
+.ui-btn-hover-c,
+.ui-btn-down-c,
+
+.ui-body-d,
+.ui-bar-d,
+.ui-btn-up-d,
+.ui-btn-hover-d,
+.ui-btn-down-d,
+
+.ui-body-e,
+.ui-bar-e,
+.ui-btn-up-e,
+.ui-btn-hover-e,
+.ui-btn-down-e,
+
+.ui-shadow-inset,
+.ui-icon-shadow,
+.ui-focus,
+.ui-overlay-shadow,
+.ui-shadow,
+.ui-btn-active,
+* {
+    text-shadow: none !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+/*ICONOS CUSTOMIZADOS*/
+.km-root .km-pane .km-view .km-icon {
+background-size: 100% 100%!important;
+-webkit-background-clip: border-box!important;
+background-color: currentcolor!important;
+}
+
+.km-root .km-pane .km-view .km-icon:after,
+.km-root .km-pane .km-view .km-icon:before
+{
+    visibility: hidden;
+}
+
+.boton-compartir
+{
+    padding-top:.3em!important;
+    padding-bottom:.3em!important;
+    padding-left:.5em!important;
+    padding-right:.5em!important;
+
+    margin-top:.2em!important;
+    margin-bottom:.2em!important;
+    margin-left:.3em!important;
+    margin-right:.3em!important;
+
+   
+
+}
+
+.km-principal {
+    -webkit-mask-box-image: url("../img/icons/home.png")!important;
+}
+.km-info {
+    -webkit-mask-box-image: url("../img/icons/info.png")!important;
+}
+.km-buscar {
+    -webkit-mask-box-image: url("../img/icons/search.png")!important;
+}
+.km-compartir {
+    -webkit-mask-box-image: url("../img/icons/share.png")!important;
+    /*-webkit-mask-box-image: url("/assets/css/icons/share.png")!important;*/
+    width: 1.6em!important;
+    height: 1.6em!important;
+}
+.km-categorias {
+    -webkit-mask-box-image: url("../img/icons/categorias.png")!important;
+}
+        
+.km-boton-atras 
+{
+    -webkit-mask-box-image: url("../img/icons/flecha.png")!important;
+}
+ 
+input[type=checkbox]:not(:checked)
+    {
+    -webkit-mask-box-image: url("../img/icons/checkbox_off.png")!important;
+    color:#e55b2b;
+} 
+
+input[type=checkbox]:checked {
+    -webkit-mask-box-image: url("../img/icons/checkbox_on.png")!important;
+}
+
+
+/*GENERAL*/
+body 
+{   
+    font-family: "Helvetica Neue light", Roboto light, Helvetica, Arial, sans-serif;
+    font: 100%/1.618, Helvetica Neue Light; 
+    color: #444; 
+    font-weight:200;
+}  
+p > * {
+    pointer-events: none;
+       margin:0auto;
+}
+
+
+input[type="checkbox"] {width:14px;height:14px;}
+input[type="radio"] {width:13px;height:13px}               
+
+/*BANNER*/
+.div-banner {
+    width: 100%;
+    vertical-align: central;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: rgb(255, 255, 255);
+}
+.image-banner {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+   background:none;
+}
+       
+
+/*BÚSQUEDA DE ARTÍCULOS*/
+.boton-buscar { 
+    margin: 1rem!important;
+}
+
+
+.items-inputs{
+    margin:.8rem;                  
+}
+
+.header-busqueda {
+    color: #e44c16!important;
+    font-size:1.2em;
+    margin: 1.1rem!important;
+}
+
+/*LISTA DE CATEGORIAS*/
+.category-list-template{
+    margin-right:35px;
+}
+
+.lista-secciones
+{
+    font-size:1.4em; 
+}
+
+.lista-secciones-busquqeda
+{
+    font-size:.9em; 
+}
+
+/*LISTA DE ARTÍCULOS */
+.header-categoria{
+    color: #e55b2b!important;          
+    font-size: 1em; 
+    display: block;
+    padding-left: 0.7em;
+    text-indent: -.1em;
+    margin-top:1em;
+    margin-right:1em;
+}
+
+.item-template-titulo{
+    font-size:1em;    
+    margin-right:40px;
+}
+
+.item-template-subtitulo {
+    color: #9b9b9b;
+    font-size:.8em; 
+    margin-right:40px;         
+}
+
+.dv-item-template {
+    margin: 0;
+}
+
+.km-detaildisclose {
+font-size:12pt!important;
+}
+
+/*ARTÍCULOS*/
+.s4,
+.s9 {
+    font-style: italic;
+}
+
+.s2 {
+    font-weight:300;
+    font-size:1em; 
+    color:#e44c16;
+    margin-left: 1rem;
+    margin-right:1rem;
+}
+
+.titulo-articulo {
+    font-size:1.4em;
+    font-weight:600;
+    line-height:1.1em;
+    color:#000000;
+    margin-left: 1rem;
+    margin-top:.5rem;
+    margin-bottom:.5rem;
+    margin-right:1rem;
+}
+
+.sub-titulo-articulo{
+    font-weight:400;
+    font-size:1em; 
+    line-height:1.1em;
+    margin-left: 1rem;
+    color: #9b9b9b; 
+    margin-left: 1rem;
+    margin-top:1rem;
+    margin-bottom:.5rem;
+    margin-right:1rem;
+}
+
+.contenedor-articulo  {
+    font-size: 1.2em;
+
+}
+        
+.contenedor-articulo > h3 {
+    font-size: .9em;
+    color:#222222;
+}
+.contenedor-articulo > h2 {
+    font-size: .9em;
+}
+
+.contenedor-articulo  h3 > .p {
+    font-size: 18px;
+}
+
+
+.categoria-articulo {
+    font-weight:500;
+    font-size:1em; 
+    line-height:1.1em;
+    font-weight:400;
+    color: #e44c16; 
+    margin-left: 1rem;
+    margin-top:.5rem;
+    margin-bottom:.5rem;
+    margin-right:1rem;
+}
+
+.p,
+.s5,
+.s6 
+{
+    font-weight: 400; 
+    color: #444;         
+}
+
+
+.km-view-title {
+    color:white!important;
+}
+
+/*----------------------------------------*/
+/*------------- Estilos de Kendo ---------*/
+/*----------------------------------------*/
+
+/*Apariencia TAB STRIP*/
+.buttonAppearance-tabstrip {
+    color: white;
+    background: #f2825b!important; /* Old browsers */
+    background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%)!important; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146))!important; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* IE10+ */
+    background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 )!important; /* IE6-9 */
+    font-weight: bold;
+    text-decoration: none;
+    border:none!important;
+}
+
+
+
+li.km-state-active 
+{
+    color:white!important;
+}
+
+li {
+background:inherit!important;
+}
+
+
+.li-margen {
+    min-height:50px!important;
+    font-size:1.2em;
+}
+
+.li-margen > li {
+    min-height:50px!important;
+}
+
+.left-align 
+{
+    margin: 4px!important;
+}
+
+input[type="text"]
+{ 
+    -moz-box-sizing:border-box!important;
+    -webkit-box-sizing:border-box!important;
+    border-radius:4px;
+    box-sizing:border-box;
+    color: #444 !important;
+    padding: 8px;
+    margin-top:1rem;
+    margin-left: 1.1rem!important;
+    width: 60%; 
+    border: 1px solid #bbb;
+    font-size:1.1em!important;
+}
+
+
+/*Poner TABSTRIP en el footer para Android*/
+.km-root .km-android .km-view {
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+}
+
+        
+.km-android .km-navbar .km-view-title /* After Q2 2012 SP1 */
+{
+    visibility: visible;
+}
+
+.km-footer {
+    background-color: rgb(255, 255, 255)!important; 
+    background:rgb(255, 255, 255); 
+}
+ 
+.km-button {
+
+    background-color: #e55b2b !important;
+    color: white !important;           
+    font-weight: bold!important;
+}
+
+.km-flat .km-header,
+.km-flat .km-navbar {
+    color: white;
+    background: #f2825b; /* Old browsers */
+    background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 ); /* IE6-9 */
+    font-weight: bold;
+    -webkit-background-size: auto!important; 
+}  
+
+.km-flat .km-switch-handle,
+.km-flat .k-slider-selection,
+.km-flat .km-switch-background
+{
+    color: #e55b2b!important;
+}
+
+.km-flat .km-loader,
+.km-flat .km-rowinsert,
+.km-flat .km-state-active,
+.km-flat .km-scroller-pull,
+.km-flat .k-slider-selection,
+.km-flat .km-touch-scrollbar,
+.km-flat .km-pages .km-current-page,
+.km-flat .k-slider .k-draghandle,
+.km-flat .k-slider .k-draghandle:hover,
+.km-flat .km-tabstrip .km-state-active,
+.km-flat .km-scroller-refresh.km-load-more,
+.km-flat .km-popup .k-state-hover,
+.km-flat .km-popup .k-state-focused,
+.km-flat .km-popup .k-state-selected,
+.km-flat .km-actionsheet > li > a:active,
+.km-flat .km-actionsheet > li > a:hover,
+.km-flat li.km-state-active .km-listview-label               
+{
+    background: #e55b2b!important;
+}
+
+.km-flat .km-listview-label input[type=radio]:checked,
+.km-flat .km-listview-label input[type=checkbox]:checked
+{
+    background: #e55b2b!important;
+    color:white!important;
+}
+
+.km-flat .km-filter-wrap > input:focus
+{
+    border-color: #e55b2b!important;
+}
+
+.radioGroup 
+{
+    background:white!important;   
+    color:  #e55b2b!important;
+    border-style:solid;
+    border-color:#e55b2b!important;
+}
+
+.km-widget {
+    border:none!important;
+    border-style:none!important;
+}
+
+.km-flat .km-widget.km-detaildisclose.km-detail.km-state-active {
+background:inherit!important;
+color:inherit!important;
+}
+
+.km-flat li.km-state-active .km-listview-link {
+background:inherit!important;
+}

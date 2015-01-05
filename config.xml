@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ar.com.novartis.plaedu" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+
+  <!-- Archivo de configuración para PhoneGap Build -->
+  <!-- http://docs.build.phonegap.com/en_US/configuring_basics.md.html#The%20Basics -->
+  
+  <name>Plataforma Educativa</name>
+
+  <description>
+    Plataforma orientada a la comunicación y capacitación de profesionales especialistas en enfermedades auto inflamatorias.
+  </description>
+
+  <author email="info@c-net.com.ar" href="http://www.c-net.com.ar">
+    C-NET S.R.L.
+  </author>
+
+  <content src="index.html" />
+
+  <access origin="*" />
+
+  <preference name="phonegap-version" value="3.6.3" />
+  <!-- all: hides the status bar at the top of the screen -->
+  <preference name="fullscreen" value="true" />
+  <preference name="permissions" value="storage"/>
+
+  <gap:plugin name="org.apache.cordova.camera" version="0.3.1" source="plugins.cordova.io" />
+
+</widget>
+
+

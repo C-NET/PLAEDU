@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <title>Plataforma Educacional</title>
+
+    <!-- Kendo UI Mobile styles for all supported platforms -->
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/kendo.mobile.all.min.css">
+
+    <!-- Kendo UI JavaScript -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/kendo.mobile.min.js"></script>
+
+    <!-- Kendo UI Culture JavaScript -->
+    <script type="text/javascript" src="js/cultures/kendo.culture.es-AR.min.js"></script>
+
+    <!-- JayData JavaScript-->
+    <script type="text/javascript" src="js/jaydata.min.js"></script>
+
+</head>
+<body>
+
+    <!--LAYOUT PRINCIPAL-->
+    <div data-role="layout" data-id="main-layout">
+        <div data-role="footer">
+            <div data-role="tabstrip">
+                <a data-icon="principal" href="#home" class="buttonAppearance-tabstrip"></a>
+                <a data-icon="buscar" href="#search" class="buttonAppearance-tabstrip"></a>
+                <a data-icon="info" href="#about" class="buttonAppearance-tabstrip"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA DE INICIO (MENU PRINCIPAL) -->
+    <div data-role="view" data-layout="main-layout" id="home" data-title="Plataforma Educacional">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left" data-icon="boton-atras">Atr&aacute;s</a>
+                <span data-role="view-title"></span>
+                <!--<a data-role="button" data-align="right" data-icon="categorias" href="#index"></a>-->
+            </div>
+        </div>
+        <ul data-role="listview" class="lista-secciones">
+            <li>
+                <a href="cases-repository.html"><span class="category-list-template">Repositorio de casos</span></a>
+            </li>
+            <li>
+                <a href="thirdparty-apps.html"><span class="category-list-template">Aplicaciones recomendadas</span></a>
+            </li>
+            <li>
+                <a href="pdfs.html"><span class="category-list-template">Descargas (pdf)</span></a>
+            </li>
+            <li>
+                <a href="links-additionalinfo.html"><span class="category-list-template">Informaci&oacute;n adicional</span></a>
+            </li>
+            <li>
+                <a href="inmails-menu.html"><span class="category-list-template">InMails</span></a>
+            </li>
+            <li>
+                <a href="help.html"><span class="category-list-template">Ayuda</span></a>
+            </li>
+            <li>&nbsp;
+            </li>
+            <li data-icon="add">
+                <a href="#newinmail"><span class="category-list-template">Nueva Consulta</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- VISTA NUEVA CONSULTA (NUEVO INMAIL) -->
+    <div id="newinmail" data-role="view" data-layout="main-layout" data-title="Nueva Consulta" data-init="initNewInmailForm" data-use-native-scrolling="true">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left" data-icon="boton-atras">Atr&aacute;s</a>
+                <span data-role="view-title"></span>
+                <a data-role="button" data-align="right" data-icon="add" href="#index"></a>
+            </div>
+        </div>
+
+        <form id="newInMailForm">
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>
+                        Patología
+                    <select id="ddlPathology">
+                        <option value="1">Patolog&iacute;a 1</option>
+                        <option value="2">Patolog&iacute;a 2</option>
+                        <option value="3">Patolog&iacute;a 3</option>
+                    </select>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Asunto
+                    <input id="txtSubject" type="text" value="Text" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Consulta
+                    <textarea id="txaText" style="resize: none">Consulta</textarea>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Experto
+                    <select id="ddlExpert">
+                        <option value="10">Experto 1</option>
+                        <option value="11">Experto 2</option>
+                        <option value="12">Experto 3</option>
+                    </select>
+                    </label>
+                </li>
+                <li class="confirm">
+                    <button class="k-button k-primary" type="submit">Enviar</button>
+                </li>
+                <li class="status"></li>
+            </ul>
+        </form>
+
+    </div>
+
+    <script>
+        function initNewInmailForm() {
+
+            if (kendo.ui.DropDownList) {
+                $("#ddlPathology").kendoDropDownList();
+                $("#ddlExpert").kendoDropDownList();
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
