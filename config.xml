@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ar.com.novartis.plaedu" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="ar.com.novartis.plaedu" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
 
   <!-- Archivo de configuración para PhoneGap Build -->
   <!-- http://docs.build.phonegap.com/en_US/configuring_basics.md.html#The%20Basics -->
-  
+
   <name>Plataforma Educacional</name>
 
   <description>
@@ -19,11 +19,27 @@
   <access origin="*" />
 
   <preference name="phonegap-version" value="3.6.3" />
-  <!-- all: hides the status bar at the top of the screen -->
+  <!-- fullscreen: hides the status bar at the top of the screen -->
   <preference name="fullscreen" value="true" />
   <preference name="permissions" value="storage"/>
+  <!-- android-minSdkVersion: Android 2.2.x FROYO -->
+  <preference name="android-minSdkVersion" value="8" />
+  <preference name="AndroidPersistentFileLocation" value="Internal" />
+  <preference name="iosPersistentFileLocation" value="Library" />
 
-  <gap:plugin name="org.apache.cordova.camera" version="0.3.1" source="plugins.cordova.io" />
+  <gap:plugin name="org.apache.cordova.camera" version="0.3.6" source="plugins.cordova.io" />
+  <gap:plugin name="org.apache.cordova.file" version="1.3.3" source="plugins.cordova.io" />
+  <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.8" source="plugins.cordova.io" />
+  <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.4" source="plugins.cordova.io" />
+  <gap:plugin name="org.apache.cordova.network-information" version="0.2.15" source="plugins.cordova.io" />
+
+  <icon src="icon.png" />
+
+  <icon src="img/icons/icon-ldpi-36x36.png" gap:platform="android" gap:qualifier="ldpi" />
+  <icon src="img/icons/icon-mdpi-48x48.png" gap:platform="android" gap:qualifier="mdpi" />
+  <icon src="img/icons/icon-hdpi-72x72.png" gap:platform="android" gap:qualifier="hdpi" />
+  <icon src="img/icons/icon-xhdpi-96x96.png" gap:platform="android" gap:qualifier="xhdpi" />
+  <icon src="img/icons/icon-xxhdpi-144x144.png" gap:platform="android" gap:qualifier="xxhdpi" />
 
 </widget>
 

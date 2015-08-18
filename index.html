@@ -1,35 +1,16 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 
     <title>Plataforma Educacional</title>
 
     <!-- Kendo UI Mobile styles for all supported platforms -->
-    <link rel="stylesheet" href="css/master.css">
-    <link rel="stylesheet" href="css/kendo.mobile.all.min.css">
+    <link rel="stylesheet" href="css/kendo.mobile.flat.min.css" />
+    <!--<link rel="stylesheet" href="css/kendo.mobile.flat.css" />-->
+    <link rel="stylesheet" href="css/master.css" />
 
     <!-- Kendo UI JavaScript -->
     <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -39,123 +20,509 @@
     <script type="text/javascript" src="js/cultures/kendo.culture.es-AR.min.js"></script>
 
     <!-- JayData JavaScript-->
+    <script type="text/javascript" src="js/datajs-1.0.3.min.js"></script>
     <script type="text/javascript" src="js/jaydata.min.js"></script>
+    <script type="text/javascript" src="js/jaydatamodules/kendo.min.js"></script>
+    <script type="text/javascript" src="js/jaydatamodules/deferred.min.js"></script>
 
 </head>
 <body>
 
     <!--LAYOUT PRINCIPAL-->
     <div data-role="layout" data-id="main-layout">
+        <ul id="actionsheet" data-role="actionsheet" data-cancel="Cerrar" data-type="tablet">
+            <li id="userLoggedIn"><a></a></li>
+            <li><a href="#" data-action="clearAppData">Borrar datos app</a></li>
+            <li><a href="#" data-action="app.openAboutView">Acerca de</a></li>
+        </ul>
         <div data-role="footer">
+            <!--TEMPORAL-->
+            <div class="log" style="font-size: x-small; max-height: 60px; overflow-y: auto;"></div>
+            <!--FIN TEMPORAL-->
             <div data-role="tabstrip">
                 <a data-icon="principal" href="#home" class="buttonAppearance-tabstrip"></a>
-                <a data-icon="buscar" href="#search" class="buttonAppearance-tabstrip"></a>
-                <a data-icon="info" href="#about" class="buttonAppearance-tabstrip"></a>
+                <a data-icon="buscar" href="#filtercases" class="buttonAppearance-tabstrip"></a>
+                <a data-icon="boton-atras" href="#:back" class="buttonAppearance-tabstrip"></a>
             </div>
+            <div class='toast' style='display: none'></div>
         </div>
     </div>
 
     <!-- VISTA DE INICIO (MENU PRINCIPAL) -->
-    <div data-role="view" data-layout="main-layout" id="home" data-title="Plataforma Educacional">
+    <div id="home" data-role="view" data-layout="main-layout" data-title="Plataforma Educacional" data-show="app.showHome" class="nm-text">
         <div data-role="header">
             <div data-role="navbar">
-                <a data-role="backbutton" data-align="left" data-icon="boton-atras">Atr&aacute;s</a>
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
                 <span data-role="view-title"></span>
-                <!--<a data-role="button" data-align="right" data-icon="categorias" href="#index"></a>-->
+                <a data-role="button" data-rel="actionsheet" href="#actionsheet" data-align="right">...</a>
             </div>
         </div>
+
         <ul data-role="listview" class="lista-secciones">
-            <li>
-                <a href="cases-repository.html"><span class="category-list-template">Repositorio de casos</span></a>
+            <li id="myCasesMenuItem">
+                <a href="#cases?mycases=true"><span class="category-list-template nm-title">Mis casos</span></a>
             </li>
             <li>
-                <a href="thirdparty-apps.html"><span class="category-list-template">Aplicaciones recomendadas</span></a>
+                <a href="#filtercases"><span class="category-list-template nm-title">Casos publicados</span></a>
             </li>
             <li>
-                <a href="pdfs.html"><span class="category-list-template">Descargas (pdf)</span></a>
+                <a href="#contents?contenttypeId=3"><span class="category-list-template nm-title">Descargas (pdf)</span></a>
             </li>
             <li>
-                <a href="links-additionalinfo.html"><span class="category-list-template">Informaci&oacute;n adicional</span></a>
+                <a href="#contents?contenttypeId=5"><span class="category-list-template nm-title">Informaci&oacute;n adicional</span></a>
             </li>
             <li>
-                <a href="inmails-menu.html"><span class="category-list-template">InMails</span></a>
+                <a href="#contents?contenttypeId=4"><span class="category-list-template nm-title">Aplicaciones recomendadas</span></a>
             </li>
             <li>
-                <a href="help.html"><span class="category-list-template">Ayuda</span></a>
+                <a id="sync"><span class="category-list-template nm-title">Sincronizar</span></a>
+            </li>
+            <li>
+                <a id="logout"><span class="category-list-template nm-title">Cerrar sesi&oacute;n</span></a>
             </li>
             <li>&nbsp;
             </li>
-            <li data-icon="add">
-                <a href="#newinmail"><span class="category-list-template">Nueva Consulta</span></a>
+            <li id="newcommentmailitem">
+                <a href="#newcommentmail"><span class="category-list-template  nm-title">Nueva consulta</span></a>
             </li>
         </ul>
     </div>
 
-    <!-- VISTA NUEVA CONSULTA (NUEVO INMAIL) -->
-    <div id="newinmail" data-role="view" data-layout="main-layout" data-title="Nueva Consulta" data-init="initNewInmailForm" data-use-native-scrolling="true">
+    <!-- VISTA LOGIN -->
+    <div id="login" data-role="view" data-title="Ingreso" data-model="loginVM" class="nm-text" data-before-show="app.beforeShowLogin">
         <div data-role="header">
             <div data-role="navbar">
-                <a data-role="backbutton" data-align="left" data-icon="boton-atras">Atr&aacute;s</a>
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
                 <span data-role="view-title"></span>
-                <a data-role="button" data-align="right" data-icon="add" href="#index"></a>
             </div>
         </div>
 
-        <form id="newInMailForm">
-            <ul data-role="listview" data-style="inset">
-                <li>
-                    <label>
-                        Patología
-                    <select id="ddlPathology">
-                        <option value="1">Patolog&iacute;a 1</option>
-                        <option value="2">Patolog&iacute;a 2</option>
-                        <option value="3">Patolog&iacute;a 3</option>
-                    </select>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Asunto
-                    <input id="txtSubject" type="text" value="Text" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Consulta
-                    <textarea id="txaText" style="resize: none">Consulta</textarea>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        Experto
-                    <select id="ddlExpert">
-                        <option value="10">Experto 1</option>
-                        <option value="11">Experto 2</option>
-                        <option value="12">Experto 3</option>
-                    </select>
-                    </label>
-                </li>
-                <li class="confirm">
-                    <button class="k-button k-primary" type="submit">Enviar</button>
-                </li>
-                <li class="status"></li>
-            </ul>
+        <form id="loginForm">
+            <div>
+                <label for="txtEmail">
+                    <span class="nm-text">Email</span>
+                </label>
+                <input id="txtEmail" name="txtEmail" type="email" class="nm-textbox" data-bind="value: email" required data-required-msg="Email requerido" data-maxtextlength="50" data-maxtextlength-msg="Email inv&aacute;lido" data-email-msg="Email inv&aacute;lido" />
+            </div>
+            <div>
+                <label for="txtPassword">
+                    <span class="nm-text">Contrase&ntilde;a</span>
+                </label>
+                <input id="txtPassword" name="txtPassword" type="password" class="nm-textbox" data-bind="value: password" required data-required-msg="Contrase&ntilde;a requerida" data-maxtextlength="50" data-maxtextlength-msg="Contrase&ntilde;a inv&aacute;lida" />
+            </div>
+            <div class="centered">
+                <!--TEMPORAL-->
+                <a class="main-button" data-role="button" data-click="loginMedico">Ingresar como M&eacute;dico</a>
+                <br />
+                <!--FIN TEMPORAL-->
+                <div id="loginResult" data-bind="visible: isResultVisible">
+                    <p></p>
+                    <span data-bind="text: authenticationResult" class="nm-alert"></span>
+                </div>
+                <a id="btnLogin" class="main-button" data-role="button" data-click="app.authenticateUser">Ingresar</a>
+                <p></p>
+                <div><a href="#newuser" class="nm-text">Registrarse</a></div>
+            </div>
         </form>
+    </div>
+
+    <!-- VISTA REGISTRO DE NUEVO USUARIO -->
+    <div id="newuser" data-role="view" data-title="Registro" data-model="userVM" data-show="app.showNewUser" class="nm-text">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left" data-icon="boton-atras">Atr&aacute;s</a>
+                <img class="loadingSpinner2nd" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <form id="newUserForm">
+            <div>
+                <label for="txtEmailNU">
+                    <span class="nm-text">Email</span>
+                </label>
+                <input id="txtEmailNU" name="txtEmailNU" type="email" class="nm-text nm-textbox" data-bind="value: email" required data-required-msg="Email requerido" data-maxtextlength="50" data-maxtextlength-msg="Email inv&aacute;lido" data-email-msg="Email inv&aacute;lido" />
+            </div>
+            <div>
+                <label for="txtPasswordNU">
+                    <span class="nm-text">Contrase&ntilde;a</span>
+                </label>
+                <input id="txtPasswordNU" name="txtPasswordNU" type="password" class="nm-text nm-textbox" data-bind="value: password" required data-required-msg="Contrase&ntilde;a requerida" data-maxtextlength="50" data-maxtextlength-msg="Contrase&ntilde;a inv&aacute;lida" />
+            </div>
+            <div>
+                <label for="txtFirstNameNU">
+                    <span class="nm-text">Nombre</span>
+                </label>
+                <input id="txtFirstNameNU" name="txtFirstNameNU" type="text" class="nm-text nm-textbox" data-bind="value: firstName" required data-required-msg="Nombre requerido" data-maxtextlength="50" data-maxtextlength-msg="Nombre inv&aacute;lido" />
+            </div>
+            <div>
+                <label for="txtLastNameNU">
+                    <span class="nm-text">Apellido</span>
+                </label>
+                <input id="txtLastNameNU" name="txtLastNameNU" type="text" class="nm-text nm-textbox" data-bind="value: lastName" required data-required-msg="Apellido requerido" data-maxtextlength="50" data-maxtextlength-msg="Apellido inv&aacute;lido" />
+            </div>
+            <div>
+                <label>
+                    <span class="nm-text">Pa&iacute;s</span>
+                    <select id="ddlCountry"
+                        data-bind="value: selectedCountry, source: countries"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span class="nm-text">Especialidad</span>
+                    <select id="ddlSpecialty"
+                        data-bind="value: selectedSpecialty, source: specialties"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div id="createUserResult" data-bind="visible: isResultVisible">
+                <p></p>
+                <span data-bind="text: authenticationResult"></span>
+            </div>
+            <div class="centered">
+                <a id="btnCreateUser" class="main-button" data-role="button" data-click="app.createUser" data-bind="enabled: isCreateButtonEnabled">Crear usuario</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- VISTA NUEVO INMAIL (NUEVO MENSAJE) -->
+    <div id="newcommentmail" data-role="view" data-layout="main-layout" data-title="Nuevo Mensaje" data-model="newcommentmailVM" data-before-show="app.beforeShowNewCommentMail" data-show="app.showNewCommentMail">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <form id="newCommentMailForm">
+            <div>
+                <label>
+                    <span class="nm-text">Patolog&iacute;a</span>
+                    <select id="ddlPathology"
+                        data-bind="value: selectedPathology, source: pathologies, enabled: isFirstCommentMail"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span class="nm-text">Experto</span>
+                    <select id="ddlExpert"
+                        data-bind="value: selectedExpert, source: experts, enabled: isFirstCommentMail"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label for="txtSubject">
+                    <span class="nm-text">Asunto</span>
+                </label>
+                <input id="txtSubject" name="txtSubject" type="text" class="nm-text nm-textbox" data-bind="value: subject, enabled: isFirstCommentMail" required data-required-msg="Asunto requerido" data-maxtextlength="100" data-maxtextlength-msg="Asunto inv&aacute;lido" />
+            </div>
+            <div>
+                <!-- Médico: Consulta / Experto: Respuesta -->
+                <label for="txaText">
+                    <span id="queryAnswer" class="nm-text" style="vertical-align: 35px;"></span>
+                </label>
+                <textarea id="txaText" name="txaText" style="resize: none" class="nm-text nm-textbox" data-bind="value: text" required data-required-msg="Campo requerido"></textarea>
+            </div>
+            <div>
+                <br />
+                <a id="btnAttachImage" data-role="button" data-click="app.attachImage">Adjuntar imagen</a>
+                <br />
+                <br />
+            </div>
+            <div id="attachedImages"></div>
+            <div>
+                <a id="btnSendCommentMail" data-role="button" data-click="app.saveCommentMailToLocalDB" class="main-button">Enviar</a>
+            </div>
+        </form>
+
+        <script id="queryanswer-template" type="text/x-kendo-template">
+            #if (userTypeId == UserTypes.Doctor){#
+                Consulta
+            #} else {#
+                Respuesta
+            #}#
+        </script>
 
     </div>
 
-    <script>
-        function initNewInmailForm() {
+    <!-- VISTA FILTRO DE CASOS -->
+    <div id="filtercases" data-role="view" data-layout="main-layout" data-title="Filtro de casos" data-model="filtercasesVM" data-before-show="app.beforeShowFilterCases" class="nm-text">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
 
-            if (kendo.ui.DropDownList) {
-                $("#ddlPathology").kendoDropDownList();
-                $("#ddlExpert").kendoDropDownList();
-            }
+        <form id="filterCasesForm">
+            <div>
+                <label>
+                    <span class="nm-text">Patolog&iacute;a</span>
+                    <select id="ddlPathologyFC"
+                        data-bind="value: selectedPathology, source: pathologies"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span class="nm-text">Experto</span>
+                    <select id="ddlExpertFC"
+                        data-bind="value: selectedExpert, source: experts"
+                        data-value-field="Id"
+                        data-text-field="Description"
+                        class="nm-text nm-textbox">
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label for="txtFreeSearch">
+                    <span class="nm-text" style="vertical-align: 0px;">B&uacute;squeda libre</span>
+                </label>
+                <!--Busca el texto ingresado en los titulos de cada caso-->
+                <input id="txtFreeSearch" name="txtFreeSearch" type="text" class="nm-text nm-textbox" data-bind="value: freeSearchText" data-maxtextlength="100" data-maxtextlength-msg="Campo inv&aacute;lido" />
+            </div>
+            <div class="centered">
+                <a id="btnFilterCases" class="main-button" data-role="button" data-click="app.filterCases">Buscar</a>
+            </div>
+        </form>
+    </div>
 
-        }
-    </script>
+    <!-- VISTA CASOS -->
+    <div id="cases" data-role="view" data-layout="main-layout" data-title="Casos" data-before-show="app.beforeShowCases" data-show="app.showCases">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
 
+        <ul id="lvCases" data-role="listview" data-template="caserow-template" data-click="app.onCaseClick" data-bound="app.lvCasesBound" class="nm-text">
+        </ul>
+
+        <script id="caserow-template" type="text/x-kendo-template">
+            #if (casesVM.myCases && userVM.userTypeId == UserTypes.Doctor && (CaseStateId == CaseStates.MsgExp || CaseStateId == CaseStates.MsgExpClose)) {#
+                <a><b>#: Title #</b></a>
+            #} else if (casesVM.myCases && userVM.userTypeId == UserTypes.Expert && (CaseStateId == CaseStates.MsgUsrFQ || CaseStateId == CaseStates.MsgUsr || CaseStateId == CaseStates.ClosePending)) {#
+                <a><b>#: Title #</b></a>
+            #} else {#
+                <a>#: Title #</a>
+            #}#
+        </script>
+    </div>
+
+    <!-- VISTA DETALLE DE UN CASO -->
+    <div id="casedetail" data-role="view" data-layout="main-layout" data-title="Detalle del caso" data-before-show="app.beforeShowCaseDetail" data-show="app.showCaseDetail">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <div>
+            <b class="nm-title">T&iacute;tulo: </b>
+            <span data-bind="text: caseEntity.Title" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-title">Patolog&iacute;a: </b>
+            <span data-bind="text: Pathology.Description" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-title">Experto: </b>
+            <span data-bind="text: Expert.Description" class="nm-text"></span>
+        </div>
+        <ul id="lvCaseCommentMails" data-role="listview" data-bind="source: getCommentMails" data-template="commentmailrow-template" data-bound="app.lvCaseCommentMailsBound">
+        </ul>
+
+        <script id="commentmailrow-template" type="text/x-kendo-template">
+            <div class="commentmail-box nm-text">
+                <div>
+					#if (UserId == userVM.userId){#
+                        <b>Yo</b>
+                    #} else if (UserId == caseVM.Expert.Id){#
+                        <b>Experto</b>
+                    #} else {#
+                        <b>M&eacute;dico</b>
+                    #}#
+                </div>
+                <div>
+                    <b>Enviado: </b><span>#= kendo.toString(DateTime, "g") #</span>
+                </div>
+                <div>
+                    <span>#: Text #</span>
+                </div>
+                <div>
+                    #if(ImageCount > 0){#
+                        <a class="rowButton" data-role="button" data-click="app.toggleCommentMailImages" data-commentuid="#= CommentUid #">Ver Im&aacute;genes</a>
+                    #}#
+                </div>
+                <div id="commentMailImageBox#= CommentUid #" style="display: none;"></div> 
+            </div>                
+        </script>
+
+        <script id="commentmailimage-template" type="text/x-kendo-template">
+                <img src="#: ImageURI #" alt="#: ImageURI #" style="width: 100%;" />
+        </script>
+
+        <div id="caseStateDescription">
+            <span data-bind="text: getCaseStateDescription" class="nm-text" style="font-style: italic"></span>
+        </div>
+
+        <div id="caseDetailActions"></div>
+
+        <script id="answerbutton-template" type="text/x-kendo-template">
+            <a id="btnAnswerCommentMail" data-role="button" data-caseuid="#= caseEntity.CaseUid #">Responder</a>
+        </script>
+        <script id="closecasebutton-template" type="text/x-kendo-template">
+            <a id="btnCloseCase" data-role="button" data-caseuid="#= caseEntity.CaseUid #">Cerrar caso</a>
+        </script>
+        <script id="moreinfobutton-template" type="text/x-kendo-template">
+            <a id="btnMoreInfo" data-role="button" data-caseuid="#= caseEntity.CaseUid #">Solicitar informaci&oacute;n</a>
+        </script>
+        <script id="askclosecasebutton-template" type="text/x-kendo-template">
+            <a id="btnAskCloseCase" data-role="button" data-caseuid="#= caseEntity.CaseUid #">Responder y Cerrar</a>
+        </script>
+        <script id="confirmclosecasebutton-template" type="text/x-kendo-template">
+            <a id="btnConfirmCloseCase" data-role="button" data-caseuid="#= caseEntity.CaseUid #">Confirmar cierre</a>
+        </script>
+
+    </div>
+
+    <!-- VISTA CONFIRMAR CIERRE DE CASO -->
+    <div id="confirmCloseCase" data-role="view" data-layout="main-layout" data-title="Confirmar cierre de caso" data-model="confirmCloseCaseVM" data-show="app.showConfirmCloseCase">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <form id="confirmCloseCaseForm">
+            <div>
+                <label for="txtCaseTitle">
+                    <span class="nm-text">T&iacute;tulo del caso</span>
+                </label>
+                <input id="txtCaseTitle" name="txtCaseTitle" type="text" data-bind="value: caseTitle" required data-required-msg="Se debe ingresar un t&iacute;tulo" data-maxtextlength="100" data-maxtextlength-msg="El t&iacute;tulo debe contener menos de 100 caracteres" class="nm-textbox" />
+            </div>
+            <div>
+                <label for="txtFinalComment">
+                    <span class="nm-text">Comentario</span>
+                </label>
+                <input id="txtFinalComment" name="txtFinalComment" type="text" data-bind="value: finalComment" class="nm-textbox" />
+            </div>
+            <div class="centered">
+                <a id="btnConfirmCloseCase2" class="main-button" data-role="button" data-click="app.onConfirmCloseCase">Confirmar cierre</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- VISTA CONTENIDO -->
+    <div id="contents" data-role="view" data-layout="main-layout" data-title="Contenidos" data-before-show="app.beforeShowContents" data-show="app.showContents" data-after-show="app.aftershowContents">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <ul id="lvContents" data-role="listview" data-template="contentrow-template" data-click="app.onContentClick" class="nm-text">
+        </ul>
+
+        <script id="contentrow-template" type="text/x-kendo-template">
+            <div class="km-listview-link">
+                <a><b class='nm-title'>#: Title #</b></a>
+                <br />
+                <a class='nm-text'>#= kendo.toString(PublishDateTime, "g") #</a>
+            </div>
+        </script>
+    </div>
+
+    <!-- VISTA DETALLE DE UN CONTENIDO -->
+    <div id="contentdetail" data-role="view" data-layout="main-layout" data-title="Detalle de contenido" data-show="app.showContentDetail">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <div>
+            <b class="nm-title">T&iacute;tulo: </b>
+            <span data-bind="text: Title" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-title">Fecha publicaci&oacute;n: </b>
+            <span data-bind="text: FormattedDateTime"></span>
+
+        </div>
+        <div>
+            <b class="nm-title">Descripci&oacute;n: </b>
+            <span data-bind="text: Description" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-title">Patolog&iacute;as: </b>
+            <span data-bind="text: PathologiesDescription" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-text">Experto Asociado: </b>
+            <span data-bind="text: ExpertUserFullName" class="nm-text"></span>
+        </div>
+        <div>
+            <b class="nm-title">Publicado por: </b>
+            <span data-bind="text: ContentAdminFullName" class="nm-text"></span>
+        </div>
+        <div>
+            <br />
+            <a id="lnkOpenContent" data-bind="attr: { href: Path }" onclick="window.open(this.href, '_system', 'location=yes'); return false;" class="nm-text">Abrir contenido</a>
+        </div>
+    </div>
+
+    <!-- VISTA ACERCA DE -->
+    <div id="about" data-role="view" data-layout="main-layout" data-title="Acerca de..." class="nm-text">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+
+        <p class="nm-text">Acerca de Plataforma Educacional</p>
+    </div>
+
+    <!-- VISTA MODAL AVISO / MENSAJE -->
+    <div id="modalmessage" data-role="modalview" data-model="modalmessageVM" style="width: 90%; height: 150px;">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-bind="text: title"></span>
+                <a data-click="hideModalMessage" data-role="button" data-align="right">Cerrar</a>
+            </div>
+        </div>
+        <div class="text-container">
+            <span data-bind="text: description"></span>
+        </div>
+    </div>
+
+    <!-- Scripts de cordova y aplicacion -->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+
 </body>
 </html>
