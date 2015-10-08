@@ -33,11 +33,12 @@
         <ul id="actionsheet" data-role="actionsheet" data-cancel="Cerrar" data-type="tablet">
             <li id="userLoggedIn"><a></a></li>
             <li><a href="#" data-action="clearAppData">Borrar datos app</a></li>
+            <li><a href="#" data-action="app.openTermsView">T&eacute;rminos de uso</a></li>
             <li><a href="#" data-action="app.openAboutView">Acerca de</a></li>
         </ul>
         <div data-role="footer">
-            <!--TEMPORAL-->
-            <div class="log" style="font-size: x-small; max-height: 60px; overflow-y: auto;"></div>
+            <!--TEMPORAL LOG-->
+            <!--<div class="log" style="font-size: x-small; max-height: 60px; overflow-y: auto;"></div>-->
             <!--FIN TEMPORAL-->
             <div data-role="tabstrip">
                 <a data-icon="principal" href="#home" class="buttonAppearance-tabstrip"></a>
@@ -102,18 +103,18 @@
                 <label for="txtEmail">
                     <span class="nm-text">Email</span>
                 </label>
-                <input id="txtEmail" name="txtEmail" type="email" class="nm-textbox" data-bind="value: email" required data-required-msg="Email requerido" data-maxtextlength="50" data-maxtextlength-msg="Email inv&aacute;lido" data-email-msg="Email inv&aacute;lido" />
+                <input onfocus="app.inFocus()" id="txtEmail" name="txtEmail" type="email" class="nm-textbox" data-bind="value: email" required data-required-msg="Email requerido" data-maxtextlength="50" data-maxtextlength-msg="Email inv&aacute;lido" data-email-msg="Email inv&aacute;lido" />
             </div>
             <div>
                 <label for="txtPassword">
                     <span class="nm-text">Contrase&ntilde;a</span>
                 </label>
-                <input id="txtPassword" name="txtPassword" type="password" class="nm-textbox" data-bind="value: password" required data-required-msg="Contrase&ntilde;a requerida" data-maxtextlength="50" data-maxtextlength-msg="Contrase&ntilde;a inv&aacute;lida" />
+                <input onfocus="app.inFocus()" id="txtPassword" name="txtPassword" type="password" class="nm-textbox" data-bind="value: password" required data-required-msg="Contrase&ntilde;a requerida" data-maxtextlength="50" data-maxtextlength-msg="Contrase&ntilde;a inv&aacute;lida" />
             </div>
             <div class="centered">
-                <!--TEMPORAL-->
-                <a class="main-button" data-role="button" data-click="loginMedico">Ingresar como M&eacute;dico</a>
-                <br />
+                <!--TEMPORAL Log In Médico-->
+                <!-- <a class="main-button" data-role="button" data-click="loginMedico">Ingresar como M&eacute;dico</a>
+                <br />-->
                 <!--FIN TEMPORAL-->
                 <div id="loginResult" data-bind="visible: isResultVisible">
                     <p></p>
@@ -355,10 +356,12 @@
         <script id="commentmailrow-template" type="text/x-kendo-template">
             <div class="commentmail-box nm-text">
                 <div>
-					#if (UserId == userVM.userId){#
+					#if (UserId == userVM.userId) {#
                         <b>Yo</b>
-                    #} else if (UserId == caseVM.Expert.Id){#
+                    #} else if (UserId == caseVM.Expert.Id) {#
                         <b>Experto</b>
+                    #} else if (userVM.userTypeId == UserTypes.Expert) {#
+                        <b>#: UserFullName #</b>
                     #} else {#
                         <b>M&eacute;dico</b>
                     #}#
@@ -495,18 +498,6 @@
         </div>
     </div>
 
-    <!-- VISTA ACERCA DE -->
-    <div id="about" data-role="view" data-layout="main-layout" data-title="Acerca de..." class="nm-text">
-        <div data-role="header">
-            <div data-role="navbar">
-                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
-                <span data-role="view-title"></span>
-            </div>
-        </div>
-
-        <p class="nm-text">Acerca de Plataforma Educacional</p>
-    </div>
-
     <!-- VISTA MODAL AVISO / MENSAJE -->
     <div id="modalmessage" data-role="modalview" data-model="modalmessageVM" style="width: 90%; height: 150px;">
         <div data-role="header">
@@ -519,6 +510,42 @@
             <span data-bind="text: description"></span>
         </div>
     </div>
+
+    <!-- VISTA ACERCA DE -->
+    <div id="about" data-role="view" data-layout="main-layout" data-title="Acerca de..." class="nm-text">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>    
+        <p class="nm-text">Acerca De...</p>    
+    </div>
+
+    <!-- VISTA TÉRMINOS Y CONDICIONES -->
+    <div id="termsAndConditions" data-layout="main-layout" data-role="view" data-title="T&eacute;rminos de uso" class="nm-text">
+        <div data-role="header">
+            <div data-role="navbar">
+                <img class="loadingSpinner" src="css/Flat/loading.gif" alt="loading spinner" />
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+        <div class="tc-body">
+            <b class="tc-title">T&eacute;rminos y condiciones</b>            
+            <br />
+            ACTUALIZADO EN OCTUBRE 2012
+            <br /><br />
+            Su acceso a este Sitio y su uso est&aacute; sujeto a la legislaci&oacute;n y reglamentaci&oacute;n aplicables y a los siguientes t&eacute;rminos y condiciones. Al acceder y revisar este Sitio Ud. acepta estos T&eacute;rminos y Condiciones, sin limitaci&oacute;n ni condicionamiento alguno, y reconoce que los mismos reemplazan y dejan sin efecto a todo otro acuerdo relativo al uso de este Sitio existente entre Ud. y Novartis Argentina S.A.. 1. Ud. puede visitar y recorrer libremente el Sitio pero s&oacute;lo puede extraer informaci&oacute;n del mismo, incluyendo textos, im&aacute;genes, audio y video (la Informaci&oacute;n) para uso personal no comercial. Sin embargo, Ud. no podr&aacute; distribuir, modificar, transmitir, reutilizar, reenviar ni utilizar la Informaci&oacute;n para fines p&uacute;blicos o comerciales, sin el permiso escrito de Novartis Argentina S.A.. 2. Ud. debe mencionar y reproducir cada uno y todos los avisos referidos al derecho de autor y a cualquier otro derecho de propiedad contenido en cualquier Informaci&oacute;n que Ud. extraiga. Debe asumir Ud. que todo lo que Ud. vea o lea en este Sitio est&aacute; protegido por el derecho de propiedad intelectual a menos que en alg&uacute;n caso particular se notifique expresamente lo contrario y no puede ser utilizado con otros fines ni objeto que los que se establecen en estos T&eacute;rminos y Condiciones o en el texto mismo del Sitio, salvo que se tuviese un permiso espec&iacute;fico dado por escrito por Novartis Argentina S.A.. Novartis Argentina S.A. no garantiza ni asume que el uso que Ud. haga del material exhibido en el Sitio no infringir&aacute; derechos de terceros que no sean de propiedad de Novartis Argentina S.A. o sus afiliadas. 3. Con excepci&oacute;n de la autorizaci&oacute;n limitada que antecede, no se le otorga ni se le confiere a Ud. ninguna licencia ni derecho sobre la Informaci&oacute;n ni sobre cualquier otro derecho de propiedad intelectual de Novartis Argentina S.A.. 4. El Sitio Internet de Novartis Argentina S.A. puede contener o hacer referencia a derechos sobre patentes, marcas, informaci&oacute;n societaria, tecnolog&iacute;a, productos, procesos y otros derechos de propiedad de Novartis Argentina S.A. y/o de otras partes. No se le otorga ni se le confiere a Ud. ninguna licencia ni ning&uacute;n derecho de propiedad intelectual sobre marcas, patentes, secretos industriales, tecnolog&iacute;as, productos, procesos y otros derechos de propiedad de cualquier otro tipo de Novartis Argentina S.A. y/o de otras partes. 5. Aunque Novartis Argentina S.A. hace todos los esfuerzos razonables para asegurar que la Informaci&oacute;n sea precisa y actualizada, la Informaci&oacute;n puede contener imprecisiones t&eacute;cnicas y/o errores tipogr&aacute;ficos. Novartis Argentina S.A. se reserva el derecho de realizar cambios, correcciones y/o mejoras en la Informaci&oacute;n y en los productos y programas descritos en dicha informaci&oacute;n, en cualquier momento y sin previo aviso. Novartis Argentina S.A. no promete ni garantiza la precisi&oacute;n de cualquier informaci&oacute;n. Novartis Argentina S.A. no asume penalidades ni responsabilidades por errores u omisiones en el contenido del Sitio. TODA LA INFORMACI&Oacute;N SE PROV&Eacute;E "COMO EST&Aacute;" SIN GARANT&Iacute;AS DE NINGUNA ESPECIE, SEAN EXPRESAS O IMPL&Iacute;CITAS INCLUYENDO - SIN LIMITARSE A ELLO - LAS GARANTIAS IMPL&Iacute;CITAS DE COMERCIABILIDAD, ADAPTABILIDAD A UN DETERMINADO FIN O USO O DE NO-VIOLACI&Oacute;N DE LEYES O DERECHOS. Algunas jurisdicciones no permiten la exclusi&oacute;n de garant&iacute;as impl&iacute;citas de modo que la exclusi&oacute;n precitada puede no aplicarse a Ud. Novartis Argentina S.A. tampoco asume responsabilidad, ni ser&aacute; pasible por ning&uacute;n da&ntilde;o o virus que puedan afectar vuestro equipo de computaci&oacute;n o cualquier otro elemento con motivo de su acceso al Sitio o el uso por Ud. de la Informaci&oacute;n. 
+            6. Excepto la informaci&oacute;n cubierta por nuestra Pol&iacute;tica Privada, toda comunicaci&oacute;n o material que Ud. transmita al Sitio por correo electr&oacute;nico o de otra forma, incluyendo datos, preguntas, comentarios, sugerencias o similares es y ser&aacute; tratada como no confidencial y como no protegida por derechos de propiedad intelectual. Todo lo que Ud. trasmita o env&iacute;e al Sitio pasa a ser propiedad de Novartis Argentina S.A. o de sus afiliadas y puede ser utilizada para cualquier prop&oacute;sito incluyendo .- sin limitarse a ello - la reproducci&oacute;n, revelaci&oacute;n, transmisi&oacute;n, publicaci&oacute;n, emisi&oacute;n radial, televisiva y postal. Adem&aacute;s, Novartis Argentina S.A. es libre de usar toda idea, concepto, know-how o t&eacute;cnicas contenidas en cualquier comunicaci&oacute;n que Ud. env&iacute;e al Sitio por cualquier motivo que sea, incluyendo - sin limitarse a ello - el desarrollo, la elaboraci&oacute;n y comercializaci&oacute;n de productos utilizando dicha informaci&oacute;n. 7. Los sitios Internet de Novartis Argentina S.A. pueden contener informaci&oacute;n sobre productos y servicios con alcance mundial, no todos los cuales est&aacute;n disponibles en cada localidad. Una referencia a un producto o servicio de Novartis Argentina S.A. no implica que dicho producto o servicio est&eacute; o vaya a estar disponible en vuestra localidad. 8. Novartis Argentina S.A. no ha revisado parcial ni totalmente sitios web de terceros que contengan v&iacute;nculos con este Sitio y no es responsable del contenido de dichas p&aacute;ginas fuera del Sitio o de otros sitios vinculados a este Sitio. Si Ud. deseara vincular su sitio web con este Sitio, s&oacute;lo puede vincular el portal (home page) . No podr&aacute; vincularse con ninguna otra p&aacute;gina dentro de este Sitio sin el previo consentimiento escrito de Novartis Argentina S.A.. 9. Novartis Argentina S.A. no acepta responsabilidad por v&iacute;nculos provenientes de nosotros hacia otros y, en particular, no somos responsables de la precisi&oacute;n ni la legalidad del contenido de estos &uacute;ltimos. No aceptamos responsabilidad derivada de incumplimientos u omisiones en las pol&iacute;ticas de privacidad de terceros. 10. Aunque Novartis Argentina S.A. puede peri&oacute;dicamente monitorear o revisar discusiones, charlas(chats), correos electr&oacute;nicos (e-mail), transmisiones, boletines y cosas similares en el Sitio, Novartis Argentina S.A. no tiene obligaci&oacute;n de hacerlo y no asume responsabilidad ni obligaci&oacute;n que surja del contenido de alguna fuente ni por cualquier error, difamaci&oacute;n, libelo, calumnia, omisi&oacute;n, falsedad, obscenidad, pornograf&iacute;a, profanaci&oacute;n, peligro, revelaci&oacute;n de secretos o imprecisi&oacute;n contenida en alguna informaci&oacute;n dentro de tales fuentes del Sitio. Tiene Ud. prohibido enviar o trasmitir cualquier material ilegal, amenazador, ofensivo, difamatorio, obsceno, escandaloso, provocador, pornogr&aacute;fico o profano o material que pudiese constituir o alentar alguna conducta que podr&iacute;a considerarse injuriosa, dar origen a alguna penalidad o viole de alguna otra forma cualquier ley. Novartis Argentina S.A. cooperar&aacute; plenamente con toda orden de autoridad competente administrativa y/o orden de juez competente que solicite o requiera que Novartis Argentina S.A. revele la identidad de todo aqu&eacute;l que env&iacute;e dicha informaci&oacute;n o material. 11. Si Novartis Argentina S.A. llegase a conocer que Ud. ha violado alguno de los t&eacute;rminos y condiciones contenidos en esta Declaraci&oacute;n Legal, Novartis Argentina S.A. puede tomar medidas correctivas en forma inmediata, incluyendo el evitar que el usuario utilice los servicios ofrecidos por Novartis Argentina S.A., pudiendo esta &uacute;ltima extraer toda informaci&oacute;n, datos y contenidos puestos en el Sitio por el usuario en cualquier momento y sin previo aviso. Novartis Argentina S.A. no acepta ninguna responsabilidad derivada de esta acci&oacute;n. 12. Ud. indemnizar&aacute; a Novartis Argentina S.A., manteni&eacute;ndola indemne contra todo reclamo, p&eacute;rdida, da&ntilde;os, pasivos, juicio, acci&oacute;n, demanda, procedimiento (sean judiciales o administrativos) y gastos que surjan de o se relacionen con el uso de alguna discusi&oacute;n, charla (chat), env&iacute;o, transmisi&oacute;n, bolet&iacute;n y similar, contenido en el Sitio, incluyendo todo lo que pueda surgir de una violaci&oacute;n de esta notificaci&oacute;n. Dichos reclamos incluir&aacute;n - sin limitarse a ello - reclamos basados en violaciones a patentes, marcas, nombres comerciales, propiedad intelectual, diluci&oacute;n de marcas, interferencia distorsiva con un contrato o con relaciones comerciales posibles, competencia desleal, difamaci&oacute;n o injuria a la reputaci&oacute;n, interpretaci&oacute;n err&oacute;nea o violaci&oacute;n de garant&iacute;as u otros da&ntilde;os o lesiones al negocio. 13. Novartis Argentina S.A. peri&oacute;dicamente puede revisar estos T&eacute;rminos y Condiciones y proceder a actualizar este texto. Ud. queda obligado a los nuevos textos actualizados y, por lo tanto, peri&oacute;dicamente deber&aacute; visitar esta p&aacute;gina para revisar los T&eacute;rminos y Condiciones actualizados a los cuales queda Ud. vinculado y obligado.
+            <br /><br /><br />
+            <b class="tc-title">Pol&iacute;ticas de privacidad</b><br />
+            ACTUALIZADO EN OCTUBRE DE 2012<br /><br />
+            Esta pol&iacute;tica est&aacute; referida y contempla los modos en que se requieren, se obtienen y se tratan los datos personales de quienes utilizan el Sitio. Al ingresar y utilizar este sitio, usted consiente en que se obtenga y utlice la informaci&oacute;n que Ud. ingrese al sitio de acuerdo con las previsiones de esta pol&iacute;tica de privacidad. Usted tambi&eacute;n toma conocimiento y acepta que Novartis, peri&oacute;dicamente, cambie, modifique, agregue o remueva o de cualquier otro modo actualice esta pol&iacute;tica de privacidad, a exclusivo criterio y decisi&oacute;n de Novartis, sin necesidad de informarlo a Ud. previamente. En los casos en que se modifique esta pol&iacute;tica de privacidad, ser&aacute;n informados en este sitio web.. Usted deber&aacute; tener en cuenta que cuando ingresa sus datos personales al Sitio, salvo que usted indique lo contrario, est&aacute; dando su consentimiento para que los datos ingresados sean procesados, almacenados y utilizados para uso cient&iacute;fico y estad&iacute;stico, para responder a sus solicitudes, para mejorar nuestro nivel de servicio y el contenido de nuestra p&aacute;gina web, suministrarle informaci&oacute;n &uacute;til, noticias y actualizaciones de productos y obtener su opini&oacute;n sobre nuestros productos, servicios y sobre el programa contenido en este Sitio. NOVARTIS podr&aacute; recoger y procesar informaci&oacute;n an&oacute;nima sobre sus visitas a este Sitio web, como ser, las p&aacute;ginas que visita y algunas de las b&uacute;squedas que realiza. Esta informaci&oacute;n an&oacute;nima es utilizada por nosotros para mejorar el contenido del Sitio y para obtener y compilar estad&iacute;sticas sobre el modo en que los individuos utilizan el Sitio para prop&oacute;sitos internos y de marketing. A estos fines, podremos instalar &ldquo;cookies&rdquo;, que son un conjunto de datos de tama&ntilde;o reducido, que se env&iacute;an a su navegador y se almacenan en el disco r&iacute;gido de su ordenador. Estos &ldquo;cookies&rdquo; no da&ntilde;an a su computadora y usted podr&aacute; programar a su navegador para que lo notifique cuando usted reciba un &ldquo;cookie&rdquo; , de modo que usted podr&aacute; decidir, en cada caso, si lo acepta o no. Si bien NOVARTIS utiliza dispositivos de seguridad, como ser &ldquo;firewalls&rdquo;, contrase&ntilde;as de uso y otras medidas, y afecta todos sus esfuerzos para evitarlo, no puede ofrecer garant&iacute;as absolutas contra el uso indebido o alteraci&oacute;n de los datos personales que est&aacute;n bajo su control. NOVARTIS no informar&aacute; sus datos personales a terceros, salvo que usted hubiese dado su consentimiento expreso y por escrito para hacerlo. NOVARTIS utilizar&aacute; sus datos personales, cumpliendo con las obligaciones que le impone la ley de Protecci&oacute;n de Datos Personales n&uacute;mero 25.326 y respetando los derechos que a usted le otorga la mencionada ley.
+        </div>
+    </div>
+
+
+
 
     <!-- Scripts de cordova y aplicacion -->
     <script type="text/javascript" src="cordova.js"></script>

@@ -4,10 +4,10 @@ var LOG_ERRORS = true;
 var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
-// ConfiguraciÃ³n de servidores
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.14:49592" : "http://10.0.0.14:49592";
+// Configuración de servidores
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.14:49592" : "http://10.0.0.14:49592"; 
 var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.14:49752" : "http://10.0.0.14:49752";
-var ODATA_SERVER = (RIPPLE) ? "http://localhost:49592/odata" : WEBAPI_SERVER + "/odata";
+var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.14:49592/odata" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gDisclaimers = [];
@@ -350,7 +350,7 @@ var app = {
     onLocalDBReady: function () {
 
         // Comprueba si existe un usuario autenticado en BD local. Si no existe, redirige a la vista de login.
-        $plaedu.context.Users.toArray() // Este array tiene 0 o 1 elemento. El usuario logeado en la aplicaciÃ³n.
+        $plaedu.context.Users.toArray() // Este array tiene 0 o 1 elemento. El usuario logeado en la aplicación.
             .done(function (users) {
                 if (users.length > 0) {
                     app.fillUserVM(users[0]);
@@ -378,7 +378,7 @@ var app = {
         }
     },
 
-    // Carga los datos estÃ¡ticos desde la base de datos local (no va a buscarlos al servidor)
+    // Carga los datos estáticos desde la base de datos local (no va a buscarlos al servidor)
     fillViewModels: function () {
 
         var dPathologies = $plaedu.context.Pathologies.toArray();
@@ -474,6 +474,11 @@ var app = {
 
     //-------------Inicio Login-------------
 
+    inFocus: function () {
+        document.getElementsByClassName("nm-alert")[0].innerHTML = "";      
+        document.getElementById("loginResult").style.display="none";
+    },    
+    
     beforeShowLogin: function (e) {
 
         if (userVM.userId > 0) {
@@ -495,7 +500,7 @@ var app = {
         }
     },
 
-    // Envia las credenciales al servidor para autenticar al usuario. (Llamada desde menÃº)
+    // Envia las credenciales al servidor para autenticar al usuario. (Llamada desde menú)
     authenticateUser: function (e) {
 
         var validator = loginVM.validator.data("kendoValidator");
@@ -538,6 +543,8 @@ var app = {
                     }
                     else {
                         $(".loadingSpinner").hide();
+                        document.getElementById("loginResult").removeAttribute("style");
+                        document.getElementsByClassName("nm-alert")[0].innerHTML = "Email o contrase\u00f1a incorrectos.";
                         loginVM.set("authenticationResult", "Email o contrase\u00f1a incorrectos.");
                     }
                 })
@@ -605,7 +612,7 @@ var app = {
 
         var newUser = new $plaedu.Types.User({
             UserId: -1,
-            UserTypeId: 1, // MÃ©dico
+            UserTypeId: 1, // Médico
             FirstName: userVM.firstName,
             LastName: userVM.lastName,
             Email: userVM.email,
@@ -721,6 +728,8 @@ var app = {
         newcommentmailVM.set("text", "");
         $("#attachedImages").html("");
 
+        kendo.bind(e.view.element, newcommentmailVM, kendo.mobile.ui);
+
         newcommentmailVM.validator = $("#newCommentMailForm").kendoValidator({
             rules: {
                 maxTextLength: function (input) {
@@ -781,7 +790,7 @@ var app = {
         }
     },
 
-    // Guarda el inMail en el dispositivo y luego envÃ­a lo pendiente al servidor.
+    // Guarda el inMail en el dispositivo y luego envía lo pendiente al servidor.
     saveCommentMailToLocalDB: function () {
 
         var validator = newcommentmailVM.validator.data("kendoValidator");
@@ -871,7 +880,7 @@ var app = {
             newcommentmailVM.commentMailEntity.ImageCount++;
         });
 
-        // Graba en BD local (Caso, mensaje e imÃ¡genes si corresponde)
+        // Graba en BD local (Caso, mensaje e imágenes si corresponde)
         return $plaedu.context.saveChanges()
             .fail(function (error) {
                 logError("Error grabando en el dispositivo los casos, mensajes e im\u00e1genes.", error);
@@ -896,7 +905,7 @@ var app = {
             });
     },
 
-    // Envia las imÃ¡genes al servidor
+    // Envia las imágenes al servidor
     sendImages: function () {
 
         $plaedu.context.Images
@@ -942,7 +951,7 @@ var app = {
                     },
                     app.onSendImageFail,
                     options,
-                    true); // TODO: trustAllHosts: Optional parameter, defaults to false. En produccciÃ³n debe estar en false.
+                    true); // TODO: trustAllHosts: Optional parameter, defaults to false. En produccción debe estar en false.
             });
     },
 
@@ -1043,6 +1052,8 @@ var app = {
 
         var lvCases = $("#lvCases").data('kendoMobileListView');
         lvCases.setDataSource(casesVM.cases);
+
+        app.kendoapp.scroller().scrollTo(0, 0);
     },
 
     loadMyCasesInCasesVM: function () {
@@ -1084,7 +1095,7 @@ var app = {
             // Obtiene el caso a mostrar
             caseVM.caseEntity = casesVM.cases.get(e.view.params.caseUid);
 
-            // Carga la patologÃ­a y el experto en caseVM para poder mostrar sus descripciones
+            // Carga la patología y el experto en caseVM para poder mostrar sus descripciones
             var dPathologies = $plaedu.context.Pathologies.filter("it.Id == pathologyId", { pathologyId: caseVM.caseEntity.PathologyId }).toArray();
             var dExperts = $plaedu.context.Experts.filter("it.Id == expertUserId", { expertUserId: caseVM.caseEntity.ExpertUserId }).toArray();
 
@@ -1117,7 +1128,7 @@ var app = {
                                 $("#btnAnswerCommentMail").kendoMobileButton({ click: app.onAnswerCommentMail });
                             }
 
-                            // Si hay solicitud de cierre, se agrega el botÃ³n "Cerrar caso"
+                            // Si hay solicitud de cierre, se agrega el botón "Cerrar caso"
                             if (caseStateId == CaseStates.MsgExpClose) {
 
                                 var closeCaseButtonTemplate = kendo.template($("#closecasebutton-template").html());
@@ -1131,20 +1142,20 @@ var app = {
                             if (caseStateId == CaseStates.MsgUsrFQ
                                 || caseStateId == CaseStates.MsgUsr) {
 
-                                // Agrega el botÃ³n "Solicitar informaciÃ³n"
+                                // Agrega el botón "Solicitar información"
                                 var moreinfoButtonTemplate = kendo.template($("#moreinfobutton-template").html());
                                 var moreinfoButtonHtml = moreinfoButtonTemplate(caseVM);
                                 $("#caseDetailActions").append(moreinfoButtonHtml);
                                 $("#btnMoreInfo").kendoMobileButton({ click: app.onAnswerCommentMail });
 
-                                // Habilita el botÃ³n "Responder y Cerrar"
+                                // Habilita el botón "Responder y Cerrar"
                                 var askCloseCaseButtonTemplate = kendo.template($("#askclosecasebutton-template").html());
                                 var askCloseCaseButtonHtml = askCloseCaseButtonTemplate(caseVM);
                                 $("#caseDetailActions").append(askCloseCaseButtonHtml);
                                 $("#btnAskCloseCase").kendoMobileButton({ click: app.onAskCloseCase });
                             }
 
-                            // Habilita el botÃ³n "Confirmar cierre"
+                            // Habilita el botón "Confirmar cierre"
                             if (caseStateId == CaseStates.ClosePending) {
 
                                 var confirmCloseCaseButtonTemplate = kendo.template($("#confirmclosecasebutton-template").html());
@@ -1362,7 +1373,7 @@ var app = {
 
     showConfirmCloseCase: function (e) {
 
-        // Se asigna el caseuid al botÃ³n con id btnConfirmCloseCase2 de manera dinÃ¡mica
+        // Se asigna el caseuid al botón con id btnConfirmCloseCase2 de manera dinámica
         $("#btnConfirmCloseCase2").data("caseuid", e.view.params.caseuid);
 
         confirmCloseCaseVM.validator = $("#confirmCloseCaseForm").kendoValidator({
@@ -1673,7 +1684,7 @@ var app = {
                             lengthArray.push($plaedu.context.Images
                                 .filter("it.ImageUid == imageUid", { imageUid: rMyImage.ImageUid })
                                 .length(function (imageCount) {
-                                    // En el caso de las imÃ¡genes, sÃ³lo se agregan los registros nuevos para no perder las rutas locales.
+                                    // En el caso de las imágenes, sólo se agregan los registros nuevos para no perder las rutas locales.
                                     if (imageCount == 0) {
                                         rMyImage.Sync = true;
                                         rMyImage.Uploaded = true;
@@ -1702,7 +1713,7 @@ var app = {
     showContents: function (e) {
 
         //Archivo PDF -> ContentTypeId = 3
-        //AplicaciÃ³n -> ContentTypeId = 4
+        //Aplicación -> ContentTypeId = 4
         //Link externo -> ContentTypeId = 5
 
         var contentTypeId = e.view.params.contenttypeId;
@@ -1777,7 +1788,7 @@ var app = {
     //-------------Fin Funciones que involucran app-------------
 };
 
-// INCIALIZACIÃ“N DE APP
+// INCIALIZACIÓN DE APP
 app.initialize();
 
 // Borra el array destino y lo completa con el array origen

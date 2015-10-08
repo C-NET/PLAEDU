@@ -15,7 +15,8 @@ p > * {
 
 input[type=checkbox]:not(:checked) {
     -webkit-mask-box-image: url("../img/icons/checkbox_off.png")!important;
-    color: #e55b2b;
+    /*color: #e55b2b;*/
+    color:#0d7658;
 }
 
 input[type=checkbox]:checked {
@@ -149,6 +150,16 @@ input[type="text"], input[type="password"], input[type="email"], select, textare
     box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
 }
 
+.tc-title {
+    font-family: Verdana, Arial;
+    font-size: larger;
+    color: black;
+}
+
+.tc-body {
+    font-family: Verdana, Arial;
+}
+
 .nm-title {
     /*font-family: Verdana;*/
     color: black;
@@ -247,14 +258,22 @@ input[type="text"], input[type="password"], input[type="email"], select, textare
 /*Apariencia TAB STRIP*/
 .buttonAppearance-tabstrip {
     color: white;
-    background: #f2825b!important; /* Old browsers */
-    background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%)!important; /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146))!important; /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* IE10+ */
-    background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important; /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 )!important; /* IE6-9 */
+    /*background: #f2825b!important;*/ /* Old browsers */
+    background: #8adaba !important;
+    /*background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%)!important;*/ /* FF3.6+ */ 
+    background: -moz-linear-gradient(top, #8adaba 0%, #0d7658 50%, #37ba86 100%)!important; /* FF3.6+ */
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146))!important;*/ /* Chrome,Safari4+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8adaba), color-stop(50%,#0d7658), color-stop(100%,#0d7658))!important; /* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important;*/ /* Chrome10+,Safari5.1+ */
+    background: -webkit-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%)!important; /* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important;*/ /* Opera 11.10+ */
+    background: -o-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%)!important; /* Opera 11.10+ */
+    /*background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important;*/ /* IE10+ */
+    background: -ms-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%)!important; /* IE10+ */
+    /*background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%)!important;*/ /* W3C */
+    background: linear-gradient(to bottom, #8adaba 0%,#0d7658 50%,#37ba86 100%)!important; /* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 )!important;*/ /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8adaba', endColorstr='#37ba86',GradientType=0 )!important; /* IE6-9 */
     font-weight: bold;
     text-decoration: none;
     border: none!important;
@@ -281,22 +300,31 @@ li.km-state-active {
 }
 
 .km-button {
-    background-color: #e55b2b !important;
+    /*background-color: #e55b2b !important;*/
+    background-color: #0f8161 !important;
     color: white !important;
     font-weight: bold!important;
 }
 
 .km-flat .km-header,
 .km-flat .km-navbar {
-    color: white;
-    background: #f2825b; /* Old browsers */
-    background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 ); /* IE6-9 */
+    color: white;    
+    /*background: #f2825b;*/ /* Old browsers */
+    background: #8adaba; /* Old browsers */
+    /*background: -moz-linear-gradient(top, #f2825b 0%, #e55b2b 50%, #f07146 100%);*/ /* FF3.6+ */
+    background: -moz-linear-gradient(top, #8adaba 0%, #0d7658 50%, #37ba86 100%); /* FF3.6+ */
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2825b), color-stop(50%,#e55b2b), color-stop(100%,#f07146));*/ /* Chrome,Safari4+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8adaba), color-stop(50%,#0d7658), color-stop(100%,#37ba86)); /* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%);*/ /* Chrome10+,Safari5.1+ */
+    background: -webkit-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%); /* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%);*/ /* Opera 11.10+ */
+    background: -o-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%); /* Opera 11.10+ */
+    /*background: -ms-linear-gradient(top, #f2825b 0%,#e55b2b 50%,#f07146 100%);*/ /* IE10+ */
+    background: -ms-linear-gradient(top, #8adaba 0%,#0d7658 50%,#37ba86 100%); /* IE10+ */
+    /*background: linear-gradient(to bottom, #f2825b 0%,#e55b2b 50%,#f07146 100%);*/ /* W3C */
+    background: linear-gradient(to bottom, #8adaba 0%,#0d7658 50%,#37ba86 100%); /* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2825b', endColorstr='#f07146',GradientType=0 );*/ /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8adaba', endColorstr='#37ba86',GradientType=0 ); /* IE6-9 */
     font-weight: bold;
     -webkit-background-size: auto!important;
 }
@@ -304,7 +332,8 @@ li.km-state-active {
 .km-flat .km-switch-handle,
 .km-flat .k-slider-selection,
 .km-flat .km-switch-background {
-    color: #e55b2b!important;
+    /*color: #e55b2b!important;*/
+    color: #0d7658!important;
 }
 
 .km-flat .km-loader,
@@ -324,17 +353,20 @@ li.km-state-active {
 .km-flat .km-actionsheet > li > a:active,
 .km-flat .km-actionsheet > li > a:hover,
 .km-flat li.km-state-active .km-listview-label {
-    background: #e55b2b!important;
+    /*background: #e55b2b!important;*/
+    background: #0d7658 !important;
 }
 
 .km-flat .km-listview-label input[type=radio]:checked,
 .km-flat .km-listview-label input[type=checkbox]:checked {
-    background: #e55b2b!important;
+    /*background: #e55b2b!important;*/
+    background: #0d7658 !important;
     color: white!important;
 }
 
 .km-flat .km-filter-wrap > input:focus {
-    border-color: #e55b2b!important;
+    /*border-color: #e55b2b!important;*/
+    border-color: #0d7658 !important;
 }
 
 .km-widget {
@@ -361,7 +393,8 @@ li.km-state-active {
 }
 
 .km-view-title {
-    background-color: #923222;
+    /*background-color: #923222;*/
+    background-color: #214e42;
     /*color: white;
     font-weight: 700;*/
     font-size: 1.2em;
@@ -372,7 +405,8 @@ li.km-state-active {
 }
 
 .km-flat .km-button {
-    background-color: #E44C16;
+    /*background-color: #E44C16;*/
+    background-color: #0f8161;
     color: white;
     /*font-family: Verdana;*/
     border-radius: 0;
@@ -380,11 +414,13 @@ li.km-state-active {
 }
 
 .buttonAppearance-tabstrip {
-    background: linear-gradient(to bottom, #E44C16 0%,#923222 50%,#E44C16 100%) !important;
+    /*background: linear-gradient(to bottom, #E44C16 0%,#923222 50%,#E44C16 100%) !important;*/
+    background: linear-gradient(to bottom, #0f8161 0%, #214e42 50%, #0f8161 100%) !important;
 }
 
 .km-flat .km-tabstrip .km-state-active {
-    background-color: #923222 !important;
+    /*background-color: #923222 !important;*/
+    background-color: #214e42 !important;
 }
 
 .km-root .km-android .km-view {
