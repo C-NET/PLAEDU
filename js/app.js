@@ -459,12 +459,6 @@ var app = {
                 app.kendoapp.navigate("#login");
             }
             else {
-                if (userVM.userTypeId == UserTypes.Doctor)
-                    $("#newcommentmailitem").show();
-
-                if (userVM.userTypeId == UserTypes.Expert)
-                    $("#newcommentmailitem").hide();
-
                 $("#userLoggedIn a").html(userVM.fullName);
             }
         });
@@ -1783,6 +1777,10 @@ var app = {
 
     openAboutView: function (event) {
         app.kendoapp.navigate('#about');
+    },
+    
+    openTermsView: function (event){
+        app.kendoapp.navigate('#termsAndConditions');
     }
 
     //-------------Fin Funciones que involucran app-------------
