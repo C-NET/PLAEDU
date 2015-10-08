@@ -6,7 +6,7 @@ var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows
 
 // Configuración de servidores
 var WEBAPI_SERVER = WP8 ? "http://10.0.0.14:49592" : "http://10.0.0.14:49592"; 
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.14:49752" : "http://10.0.0.14:49752";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.14:2488" : "http://10.0.0.14:2488";
 var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.14:49592/odata" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
