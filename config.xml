@@ -23,7 +23,7 @@
   <preference name="fullscreen" value="true" />
   <preference name="permissions" value="storage"/>
   <!-- android-minSdkVersion: Android 3.2 HONEYCOMB_MR2 -->
-  <preference name="android-minSdkVersion" value="13" />
+  <preference name="android-minSdkVersion" value="10" />
   <preference name="AndroidPersistentFileLocation" value="Internal" />
   <preference name="iosPersistentFileLocation" value="Library" />
 
@@ -105,5 +105,3 @@
   <gap:splash src="img/splashs/wp8/splashscreen-768x1280.jpg" gap:platform="winphone" />
 
 </widget>
-
-
