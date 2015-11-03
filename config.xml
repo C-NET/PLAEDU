@@ -19,7 +19,7 @@
 
 	<access origin="*" />
   
-	<preference name="phonegap-version" value="3.6.3" />
+	<preference name="phonegap-version" value="cli-5.2.0" />
 	<!-- fullscreen: hides the status bar at the top of the screen -->
 	<preference name="fullscreen" value="true" />
 	<preference name="permissions" value="storage"/>
