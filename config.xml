@@ -28,6 +28,11 @@
 	<preference name="AndroidPersistentFileLocation" value="Internal" />
 	<preference name="iosPersistentFileLocation" value="Library" />
   
+    <gap:plugin name="cordova-plugin-camera" source="npm" />
+	<gap:plugin name="cordova-plugin-file" source="npm" />
+	<gap:plugin name="cordova-plugin-file-transfer" source="npm" />
+	<gap:plugin name="cordova.plugins.inappbrowser" source="npm" />
+	<gap:plugin name="cordova-plugin-network-information" source="npm" />
 	
 	<icon src="icon.png" />
 
