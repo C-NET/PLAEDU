@@ -230,14 +230,14 @@
                 <label for="txtSubject">
                     <span class="nm-text">Asunto</span>
                 </label>
-                <input id="txtSubject" name="txtSubject" type="text" class="nm-text nm-textbox" data-bind="value: subject, enabled: isFirstCommentMail" pattern=".*\S+.*" title="Asunto requerido" required data-required-msg="Asunto requerido" data-maxtextlength="100" data-maxtextlength-msg="Asunto inv&aacute;lido" />
+                <input id="txtSubject" name="txtSubject" type="text" class="nm-text nm-textbox" data-bind="value: subject, enabled: isFirstCommentMail" required data-required-msg="Asunto requerido" data-maxtextlength="100" data-maxtextlength-msg="Asunto inv&aacute;lido" />
             </div>
             <div>
                 <!-- Médico: Consulta / Experto: Respuesta -->
                 <label for="txaText">
                     <span id="queryAnswer" class="nm-text" style="vertical-align: 35px;"></span>
                 </label>
-                <textarea id="txaText" name="txaText" style="resize: none" class="nm-text nm-textbox" data-bind="value: text" required data-required-msg="Campo requerido" data-mintextlength="3" data-mintextlength-msg="Campo Requerido"></textarea>
+                <textarea id="txaText" name="txaText" style="resize: none" class="nm-text nm-textbox" data-bind="value: text" required data-required-msg="Campo requerido"></textarea>
             </div>
             <div>
                 <br />
