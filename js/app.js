@@ -5,12 +5,11 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PlaEdu_WebApi" : "http://10.0.0.13/PlaEdu_WebApi"; 
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/PlaEdu" : "http://10.0.0.13/PlaEdu";
-var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PlaEdu_WebApi/odata" : WEBAPI_SERVER + "/odata";
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI" : "http://10.0.0.13/PLAEDU_WebAPI";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/Plaedu" : "http://10.0.0.13/Plaedu";
+var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU_WebAPI/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
-var gDisclaimers = [];
 var gSynchronizing = false;
 var gConfigLoaded = false;
 
@@ -284,11 +283,6 @@ var app = {
             Description: { type: 'Edm.String', required: true }
         });
 
-        $data.Entity.extend('$plaedu.Types.Disclaimer', {
-            Id: { type: 'Edm.Int32', key: true },
-            Description: { type: 'Edm.String', required: true }
-        });
-
         $data.Entity.extend('$plaedu.Types.Country', {
             Id: { type: 'Edm.Int32', key: true },
             Description: { type: 'Edm.String', required: true }
@@ -326,7 +320,6 @@ var app = {
             Pathologies: { type: $data.EntitySet, elementType: $plaedu.Types.Pathology },
             Experts: { type: $data.EntitySet, elementType: $plaedu.Types.Expert },
             Specialties: { type: $data.EntitySet, elementType: $plaedu.Types.Specialty },
-            Disclaimers: { type: $data.EntitySet, elementType: $plaedu.Types.Disclaimer },
             Countries: { type: $data.EntitySet, elementType: $plaedu.Types.Country },
             Users: { type: $data.EntitySet, elementType: $plaedu.Types.User },
             Contents: { type: $data.EntitySet, elementType: $plaedu.Types.Content }
@@ -384,22 +377,20 @@ var app = {
         var dPathologies = $plaedu.context.Pathologies.toArray();
         var dExperts = $plaedu.context.Experts.toArray();
         var dSpecialties = $plaedu.context.Specialties.toArray();
-        var dDisclaimers = $plaedu.context.Disclaimers.toArray();
         var dCountries = $plaedu.context.Countries.toArray();
 
-        return $.when(dPathologies, dExperts, dSpecialties, dDisclaimers, dCountries)
-            .then(function (pathologies, experts, specialties, disclaimers, countries) {
+        return $.when(dPathologies, dExperts, dSpecialties, dCountries)
+            .then(function (pathologies, experts, specialties, countries) {
 
                 // Completa los datos en memoria con datos de BD local
                 fillDropDownList(newcommentmailVM.pathologies, pathologies, false, false);
                 fillDropDownList(newcommentmailVM.experts, experts, false, false);
                 fillDropDownList(userVM.specialties, specialties, false, true);
                 fillDropDownList(userVM.countries, countries, false, false);
-                fillDropDownList(gDisclaimers, disclaimers, false, false);
                 fillDropDownList(filtercasesVM.pathologies, pathologies, true, false);
                 fillDropDownList(filtercasesVM.experts, experts, true, false);
 
-                log("Datos est&aacute;ticos (Patologias, Expertos, Especialidades, Disclaimers y Paises) cargados en memoria.");
+                log("Datos est&aacute;ticos (Patologias, Expertos, Especialidades y Paises) cargados en memoria.");
             })
             .fail(function (error) {
                 logError("Error al cargar datos desde BD local.", error);
@@ -459,12 +450,6 @@ var app = {
                 app.kendoapp.navigate("#login");
             }
             else {
-                if (userVM.userTypeId == UserTypes.Doctor)
-                    $("#newcommentmailitem").show();
-
-                if (userVM.userTypeId == UserTypes.Expert)
-                    $("#newcommentmailitem").hide();
-
                 $("#userLoggedIn a").html(userVM.fullName);
             }
         });
@@ -794,6 +779,19 @@ var app = {
     saveCommentMailToLocalDB: function () {
 
         var validator = newcommentmailVM.validator.data("kendoValidator");
+
+        newcommentmailVM.validator = $("#newCommentMailForm").kendoValidator({
+            rules: {
+                minTextLength: function (input) {
+                    if (input.is("[name=txaText]")) {
+                        var minlength = input.attr("data-mintextlength");
+                        debugger;
+                        return $.trim(input.val()) != "";
+                    }
+                    return true;
+                }
+            }
+        });
 
         if (!validator.validate())
             return;
@@ -1616,7 +1614,6 @@ var app = {
             app.emptyTable($plaedu.context.Pathologies),
             app.emptyTable($plaedu.context.Experts),
             app.emptyTable($plaedu.context.Specialties),
-            app.emptyTable($plaedu.context.Disclaimers),
             app.emptyTable($plaedu.context.Countries))
         .then(function () {
             return $plaedu.context.saveChanges();
@@ -1625,10 +1622,9 @@ var app = {
             var dPathologies = app.copyTable($plaedu.context.remote.Pathologies, $plaedu.context.Pathologies);
             var dExperts = app.copyTable($plaedu.context.remote.Experts, $plaedu.context.Experts);
             var dSpecialties = app.copyTable($plaedu.context.remote.Specialties, $plaedu.context.Specialties);
-            var dDisclaimers = app.copyTable($plaedu.context.remote.Disclaimers, $plaedu.context.Disclaimers);
             var dCountries = app.copyTable($plaedu.context.remote.Countries, $plaedu.context.Countries);
 
-            return $.when(dPathologies, dExperts, dSpecialties, dDisclaimers, dCountries);
+            return $.when(dPathologies, dExperts, dSpecialties, dCountries);
         });
     },
 
@@ -1929,7 +1925,6 @@ function clearAppData() {
             app.emptyTable($plaedu.context.Pathologies),
             app.emptyTable($plaedu.context.Experts),
             app.emptyTable($plaedu.context.Specialties),
-            app.emptyTable($plaedu.context.Disclaimers),
             app.emptyTable($plaedu.context.Countries))
         .then(function () {
             $plaedu.context.saveChanges()

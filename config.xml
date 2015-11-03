@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ar.com.novartis.plaedu" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
 
-  <!-- Archivo de configuraciÃ³n para PhoneGap Build -->
+  <!-- Archivo de configuración para PhoneGap Build -->
   <!-- http://docs.build.phonegap.com/en_US/configuring_basics.md.html#The%20Basics -->
 
   <name>Plataforma Educacional</name>
 
   <description>
-    Plataforma orientada a la comunicaciÃ³n y capacitaciÃ³n de profesionales especialistas en enfermedades auto inflamatorias.
+    Plataforma orientada a la comunicación y capacitación de profesionales especialistas en enfermedades auto inflamatorias.
   </description>
 
   <author email="info@c-net.com.ar" href="http://www.c-net.com.ar">
@@ -27,11 +27,11 @@
   <preference name="AndroidPersistentFileLocation" value="Internal" />
   <preference name="iosPersistentFileLocation" value="Library" />
 
-  <gap:plugin name="org.apache.cordova.camera" version="0.3.6" source="npm" />
-  <gap:plugin name="org.apache.cordova.file" version="1.3.3" source="npm" />
-  <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.8" source="npm" />
-  <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.4" source="npm" />
-  <gap:plugin name="org.apache.cordova.network-information" version="0.2.15" source="npm" />
+  <gap:plugin name="cordova-plugin-camera" source="npm" />
+  <gap:plugin name="cordova-plugin-file" source="npm" />
+  <gap:plugin name="cordova-plugin-file-transfer" source="npm" />
+  <gap:plugin name="cordova.plugins.inappbrowser" source="npm" />
+  <gap:plugin name="cordova-plugin-network-information" source="npm" />
 
   <icon src="icon.png" />
 
