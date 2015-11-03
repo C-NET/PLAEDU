@@ -5,16 +5,27 @@
         versionCode = "10" 
         version     = "1.0.0" >
 
-    <!-- versionCode is optional and Android only -->
-
-    <name>PhoneGap Example</name>
+    <name>Plataforma Educacional</name>
 
     <description>
-        An example for phonegap build docs. 
-    </description>
+		Plataforma orientada a la comunicación y capacitación de profesionales especialistas en enfermedades auto inflamatorias.
+	</description>
 
-    <author href="https://build.phonegap.com" email="support@phonegap.com">
-        Hardeep Shoker 
-    </author>
+    <author email="info@c-net.com.ar" href="http://www.c-net.com.ar">
+		C-NET S.R.L.
+	</author>
 
+	<content src="index.html" />
+
+	<access origin="*" />
+  
+	<preference name="phonegap-version" value="3.6.3" />
+	  <!-- fullscreen: hides the status bar at the top of the screen -->
+	  <preference name="fullscreen" value="true" />
+	  <preference name="permissions" value="storage"/>
+	  <!-- android-minSdkVersion: Android 3.2 HONEYCOMB_MR2 -->
+	  <preference name="android-minSdkVersion" value="10" />
+	  <preference name="AndroidPersistentFileLocation" value="Internal" />
+	  <preference name="iosPersistentFileLocation" value="Library" />
+  
 </widget>
