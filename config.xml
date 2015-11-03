@@ -19,7 +19,7 @@
 
 	<access origin="*" />
   
-	<preference name="phonegap-version" value="cli-5.2.0" />
+	<preference name="phonegap-version" value="3.7.0" />
 	<!-- fullscreen: hides the status bar at the top of the screen -->
 	<preference name="fullscreen" value="true" />
 	<preference name="permissions" value="storage"/>
@@ -28,11 +28,11 @@
 	<preference name="AndroidPersistentFileLocation" value="Internal" />
 	<preference name="iosPersistentFileLocation" value="Library" />
   
-    <gap:plugin name="cordova-plugin-camera" source="npm" />
-	<gap:plugin name="cordova-plugin-file" source="npm" />
-	<gap:plugin name="cordova-plugin-file-transfer" source="npm" />
-	<gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
-	<gap:plugin name="cordova-plugin-network-information" source="npm" />
+	<gap:plugin name="org.apache.cordova.camera" version="0.3.6" source="npm" />
+	<gap:plugin name="org.apache.cordova.file" version="1.3.3" source="npm" />
+	<gap:plugin name="org.apache.cordova.file-transfer" version="0.4.8" source="npm" />
+	<gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.4" source="npm" />
+	<gap:plugin name="org.apache.cordova.network-information" version="0.2.15" source="npm" />
 	
 	<icon src="icon.png" />
 
