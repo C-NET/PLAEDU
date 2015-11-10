@@ -1191,35 +1191,6 @@ var app = {
         }
     },
 
-    myFunction: function (e) {
-        debugger;
-        var FileName = $("#txtPath").val();
-        var fileURL = "cdvfile://localhost/" + FileName;
-        
-        var ContentId = $("#txtContentId").val();
-        var uri = IMG_DOWNLOAD_SERVER + "/media/?contentId=" + ContentId;
-
-
-
-        if (!RIPPLE) {
-
-            var fileTransfer = new FileTransfer();
-
-            fileTransfer.download(
-                encodeURI(uri),
-                encodeURI(fileURL),
-                function (entry) {
-                    // Download Success!
-                    hideToast();
-                },
-                function (error) {
-                    // Download Error
-                    hideToast();
-                },
-                true); // TODO: trustAllHosts = true not recommended for production use. Supported on Android and iOS.
-        }
-    },
-
     showCommentMailImages: function (commentUid) {
         debugger;
         var imageDataSource = caseVM.getCommentMailImages(commentUid);
