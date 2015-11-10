@@ -7,7 +7,7 @@ var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows
 // Configuración de servidores
 var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI" : "http://10.0.0.13/PLAEDU_WebAPI";
 var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/Plaedu" : "http://10.0.0.13/Plaedu";
-var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU_WebAPI/oData" : WEBAPI_SERVER + "/odata";
+var ODATA_SERVER = (RIPPLE) ? "http://localhost:49306/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
@@ -1191,8 +1191,37 @@ var app = {
         }
     },
 
-    showCommentMailImages: function (commentUid) {
+    myFunction: function (e) {
+        debugger;
+        var FileName = $("#txtPath").val();
+        var fileURL = "cdvfile://localhost/" + FileName;
+        
+        var ContentId = $("#txtContentId").val();
+        var uri = IMG_DOWNLOAD_SERVER + "/media/?contentId=" + ContentId;
 
+
+
+        if (!RIPPLE) {
+
+            var fileTransfer = new FileTransfer();
+
+            fileTransfer.download(
+                encodeURI(uri),
+                encodeURI(fileURL),
+                function (entry) {
+                    // Download Success!
+                    hideToast();
+                },
+                function (error) {
+                    // Download Error
+                    hideToast();
+                },
+                true); // TODO: trustAllHosts = true not recommended for production use. Supported on Android and iOS.
+        }
+    },
+
+    showCommentMailImages: function (commentUid) {
+        debugger;
         var imageDataSource = caseVM.getCommentMailImages(commentUid);
 
         imageDataSource.fetch(function () {
@@ -1232,7 +1261,7 @@ var app = {
     },
 
     prepareDownloadImage: function (imageEntity, imageTemplate, imagesDiv) {
-
+        debugger;
         var lfsTypeStr;
         var lfsType;
 
@@ -1711,7 +1740,7 @@ var app = {
         //Archivo PDF -> ContentTypeId = 3
         //Aplicación -> ContentTypeId = 4
         //Link externo -> ContentTypeId = 5
-
+        debugger;
         var contentTypeId = e.view.params.contenttypeId;
 
         if (contentTypeId) {
@@ -1757,6 +1786,7 @@ var app = {
 
     showContentDetail: function (e) {
 
+        debugger;
         var contentVM = contentsVM.contents.get(e.view.params.contentid);
 
         contentVM.FormattedDateTime = kendo.toString(contentVM.PublishDateTime, "g");
@@ -1786,6 +1816,7 @@ var app = {
     }
 
     //-------------Fin Funciones que involucran app-------------
+
 };
 
 // INCIALIZACIÓN DE APP
