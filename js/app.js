@@ -207,6 +207,8 @@ var app = {
         app.instantiateContexts();
     },
 
+    
+
     createKendoApp: function () {
 
         var initialView = "login";
@@ -1787,7 +1789,7 @@ var app = {
     }
 
     //-------------Fin Funciones que involucran app-------------
-
+    
 };
 
 // INCIALIZACIÓN DE APP
@@ -1959,4 +1961,10 @@ function loginMedico() {
     app.authenticateUser();
 }
 
+function openExternalLink()
+{
+        debugger;
+        var a = $("#btnOpen").attr('data-Link');
+        window.open(a, '_system', 'location=yes');
+}
 
