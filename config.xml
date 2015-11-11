@@ -17,7 +17,7 @@
 
 	<content src="index.html" />
 
-	<access origin="*" />
+	<access origin="*" browserOnly="true" />
   
 	<preference name="phonegap-version" value="3.7.0" />
 	<!-- fullscreen: hides the status bar at the top of the screen -->
