@@ -375,11 +375,13 @@ var app = {
 
     // Carga los datos estáticos desde la base de datos local (no va a buscarlos al servidor)
     fillViewModels: function () {
-
+        debugger;
         var dPathologies = $plaedu.context.Pathologies.toArray();
         var dExperts = $plaedu.context.Experts.toArray();
         var dSpecialties = $plaedu.context.Specialties.toArray();
         var dCountries = $plaedu.context.Countries.toArray();
+
+        //.filter(function (expert) { return expert.Active == true; }).toArray()
 
         return $.when(dPathologies, dExperts, dSpecialties, dCountries)
             .then(function (pathologies, experts, specialties, countries) {
@@ -1964,7 +1966,15 @@ function loginMedico() {
 function openExternalLink()
 {
         debugger;
-        var a = $("#btnOpen").attr('data-Link');
-        window.open(a, '_system', 'location=yes');
+        var a = $("#lnkOpenContent").attr('data-Link');
+        window.open(addhttp(a), '_system', 'location=yes');
+}
+
+function addhttp($url) {
+    var prefix = 'http://';
+    if ($url.substr(0, prefix.length) !== prefix) {
+        $url = prefix + $url;
+    }
+    return $url;
 }
 
