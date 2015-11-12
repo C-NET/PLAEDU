@@ -1994,7 +1994,7 @@ function addhttp($url) {
 function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/lean/";
+        var fileURL = "cdvfile://localhost/persistent/lean/" + fileName;
         downloadPdf(contentId, fileURL);
     }
     else {
@@ -2017,32 +2017,62 @@ function prepareDownloadPdf(contentId,fileName)
 
 function downloadPdf(contentId, fileURL)
 {
-    debugger;
-    //showToast("Descargando Archivo", true);
+    function download() {
+        var remoteFile = IMG_DOWNLOAD_SERVER + "/Media/Media?contentId=" + contentId;
+
+        var localFileName = remoteFile.substring(remoteFile.lastIndexOf('/') + 1);
+
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+            fileSystem.root.getFile(localFileName, { create: true, exclusive: false }, function (fileEntry) {
+                var localPath = fileEntry.fullPath;
+                if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+                    localPath = localPath.substring(7);
+                }
+                var ft = new FileTransfer();
+                ft.download(remoteFile,
+                    localPath, function (entry) {
+                        var dwnldImg = document.getElementById("dwnldImg");
+                        dwnldImg.src = entry.fullPath;
+                        dwnldImg.style.visibility = "visible";
+                        dwnldImg.style.display = "block";
+                    }, fail);
+            }, fail);
+        }, fail);
+    }
+
+    function fail(error) {
+        console.log(error.code);
+    }
+
+
+
+
+    //debugger;
+    ////showToast("Descargando Archivo", true);
         
-    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+    //var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    var fileTransfer = new FileTransfer();
+    //var fileTransfer = new FileTransfer();
 
-    fileTransfer.download(
-    encodeURI(uri),
-    fileURL,
-    function (entry) {
-        showToast("Success", true);
-        console.log("download complete: " + entry.fullPath);
-    },
-    function (error) {
-        showToast(error, true);
-        console.log("download error source " + error.source);
-        console.log("download error target " + error.target);
-        console.log("upload error code" + error.code);
-        //hideToast();
-    },
-    false,
-    {
-        headers: {
-            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-        }
-    });
+    //fileTransfer.download(
+    //encodeURI(uri),
+    //fileURL,
+    //function (entry) {
+    //    showToast("Success", true);
+    //    console.log("download complete: " + entry.fullPath);
+    //},
+    //function (error) {
+    //    showToast(error, true);
+    //    console.log("download error source " + error.source);
+    //    console.log("download error target " + error.target);
+    //    console.log("upload error code" + error.code);
+    //    //hideToast();
+    //},
+    //false,
+    //{
+    //    headers: {
+    //        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+    //    }
+    //});
 
 }
