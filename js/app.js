@@ -1973,11 +1973,11 @@ function openExternalLink()
     var contentId = $("#txtContentId").val();
     var a = $("#lnkOpenContent").attr('data-Link');
 
-    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/Media?contentId=" + contentId
+    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId
 
     if (contentTypeId === "3") {
         window.open(encodeURI(uri), '_system', 'location=yes');
-        prepareDownloadPdf(contentId, a);
+        //prepareDownloadPdf(contentId, a);
     }
     else {
         window.open(addhttp(a), '_system', 'location=yes');
