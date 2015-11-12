@@ -1275,6 +1275,7 @@ var app = {
     downloadImage: function (imageEntity, imageTemplate, imagesDiv, fileURL) {
 
         var uri = IMG_DOWNLOAD_SERVER + "/download/download?uid=" + imageEntity.ImageUid;
+
         log("fileURL: " + encodeURI(fileURL));
 
         var fileTransfer = new FileTransfer();
@@ -1991,7 +1992,7 @@ function addhttp($url) {
 function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/temporary/" + fileName;
+        var fileURL = "cdvfile://localhost/persistent/" + fileName;
         downloadPdf(contentId, fileURL);
     }
     else {
@@ -2014,25 +2015,26 @@ function prepareDownloadPdf(contentId,fileName)
 
 function downloadPdf(contentId, fileURL)
 {
-    if (!RIPPLE) {
-        var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
+    debugger;
+    showToast("Descargando Archivo", false);
+    var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
 
-        var fileTransfer = new FileTransfer();
+    var fileTransfer = new FileTransfer();
 
-        fileTransfer.download(
-            encodeURI(uri),
-            encodeURI(fileURL),
-            function () {
-                // Download Success!
-                hideToast();
-            },
-            function (error) {
-                // Download Error
-                hideToast();
-                log("download error source: " + error.source);
-                log("download error target: " + error.target);
-                log("download error code: " + error.code);
-            },
-            true);
-    }
+    fileTransfer.download(
+        encodeURI(uri),
+        encodeURI(fileURL),
+        function () {
+            // Download Success!
+            hideToast();
+        },
+        function (error) {
+            // Download Error
+            hideToast();
+            log("download error source: " + error.source);
+            log("download error target: " + error.target);
+            log("download error code: " + error.code);
+        },
+        true);
+
 }
