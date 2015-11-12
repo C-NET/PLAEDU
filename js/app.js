@@ -1973,7 +1973,7 @@ function openExternalLink()
     var contentId = $("#txtContentId").val();
     var a = $("#lnkOpenContent").attr('data-Link');
 
-    var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId
+    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/Media?contentId=" + contentId
 
     if (contentTypeId === "3") {
         window.open(encodeURI(uri), '_system', 'location=yes');
