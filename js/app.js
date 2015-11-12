@@ -1973,10 +1973,11 @@ function openExternalLink()
     var contentId = $("#txtContentId").val();
     var a = $("#lnkOpenContent").attr('data-Link');
 
+    var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId
+
     if (contentTypeId === "3") {
-        //prepareDownloadPdf(contentId, a);
-        var uri = IMG_DOWNLOAD_SERVER + "/" + a;
-        window.open(addhttp(uri), '_system', 'location=yes');
+        window.open(encodeURI(uri), '_system', 'location=yes');
+        prepareDownloadPdf(contentId, a);
     }
     else {
         window.open(addhttp(a), '_system', 'location=yes');
@@ -1994,7 +1995,7 @@ function addhttp($url) {
 function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/" + fileName;
+        var fileURL = "cdvfile://localhost/persistent/download";
         downloadPdf(contentId, fileURL);
     }
     else {
@@ -2019,24 +2020,27 @@ function downloadPdf(contentId, fileURL)
 {
     debugger;
     showToast("Descargando Archivo", false);
+        
     var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
 
     var fileTransfer = new FileTransfer();
 
     fileTransfer.download(
-        encodeURI(uri),
-        encodeURI(fileURL),
-        function (entry) {
-            // Download Success!
-            hideToast();
-        },
-        function (error) {
-            // Download Error
-            hideToast();
-            log("download error source: " + error.source);
-            log("download error target: " + error.target);
-            log("download error code: " + error.code);
-        },
-        true);
+    encodeURI(uri),
+    fileURL,
+    function (entry) {
+        console.log("download complete: " + entry.fullPath);
+    },
+    function (error) {
+        console.log("download error source " + error.source);
+        console.log("download error target " + error.target);
+        console.log("upload error code" + error.code);
+    },
+    false,
+    {
+        headers: {
+            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+        }
+    });
 
 }
