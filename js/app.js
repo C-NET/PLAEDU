@@ -1717,6 +1717,7 @@ var app = {
         //Link externo -> ContentTypeId = 5
         debugger;
         var contentTypeId = e.view.params.contenttypeId;
+        $("#txtContentTypeId").val(e.view.params.contenttypeId);
 
         if (contentTypeId) {
 
@@ -1762,6 +1763,7 @@ var app = {
     showContentDetail: function (e) {
 
         debugger;
+        
         var contentVM = contentsVM.contents.get(e.view.params.contentid);
 
         contentVM.FormattedDateTime = kendo.toString(contentVM.PublishDateTime, "g");
@@ -1965,9 +1967,17 @@ function loginMedico() {
 
 function openExternalLink()
 {
-        debugger;
-        var a = $("#lnkOpenContent").attr('data-Link');
+    debugger;
+    var contentTypeId = $("#txtContentTypeId").val();
+    var contentId = $("#txtContentId").val();
+    var a = $("#lnkOpenContent").attr('data-Link');
+
+    if (contentTypeId === "3") {
+        prepareDownloadPdf(contentId, a);
+    }
+    else {
         window.open(addhttp(a), '_system', 'location=yes');
+    }
 }
 
 function addhttp($url) {
@@ -1978,3 +1988,52 @@ function addhttp($url) {
     return $url;
 }
 
+function prepareDownloadPdf(contentId,fileName)
+{
+    if (!WP8) {
+        var fileURL = "cdvfile://localhost/temporary/" + fileName;
+        downloadPdf(contentId);
+    }
+    else {
+        window.requestFileSystem(lfsType, 0, function (fs) {
+            fs.root.getDirectory("plaedu", {
+                create: true,
+                exclusive: false
+            }, function (directory) {
+                var fileURL = directory.toURL() + "/" + fileName;
+                downloadPdf(contentId);
+            })
+        }, function (error) {
+            hideToast();
+            console.log("requestFileSystem error code: " + error.code);
+            console.log("requestFileSystem error source: " + error.source);
+            console.log("requestFileSystem error target: " + error.target);
+        });
+    }
+}
+
+function downloadPdf(contentId)
+{
+    if (!RIPPLE) {
+        var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
+        log("fileURL: " + encodeURI(fileURL));
+
+        var fileTransfer = new FileTransfer();
+
+        fileTransfer.download(
+            encodeURI(uri),
+            encodeURI(fileURL),
+            function (entry) {
+                // Download Success!
+                hideToast();
+            },
+            function (error) {
+                // Download Error
+                hideToast();
+                log("download error source: " + error.source);
+                log("download error target: " + error.target);
+                log("download error code: " + error.code);
+            },
+            true);
+    }
+}
