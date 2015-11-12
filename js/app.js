@@ -2018,7 +2018,7 @@ function prepareDownloadPdf(contentId,fileName)
 function downloadPdf(contentId, fileURL)
 {
     function download() {
-        var remoteFile = IMG_DOWNLOAD_SERVER + "/Media/Media?contentId=" + contentId;
+        var remoteFile = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
         var localFileName = remoteFile.substring(remoteFile.lastIndexOf('/') + 1);
 
