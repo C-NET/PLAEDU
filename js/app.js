@@ -2036,7 +2036,7 @@ function downloadPdf(contentId, fileURL)
     }, fail);
 }
 
-    function fail(error) {
+function fail(error) {
         console.log(error.code);
     }
 
@@ -2070,5 +2070,3 @@ function downloadPdf(contentId, fileURL)
     //        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
     //    }
     //});
-
-}
