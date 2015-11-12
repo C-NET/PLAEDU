@@ -1992,7 +1992,7 @@ function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
         var fileURL = "cdvfile://localhost/temporary/" + fileName;
-        downloadPdf(contentId);
+        downloadPdf(contentId, fileURL);
     }
     else {
         window.requestFileSystem(lfsType, 0, function (fs) {
@@ -2012,18 +2012,17 @@ function prepareDownloadPdf(contentId,fileName)
     }
 }
 
-function downloadPdf(contentId)
+function downloadPdf(contentId, fileURL)
 {
     if (!RIPPLE) {
         var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
-        log("fileURL: " + encodeURI(fileURL));
 
         var fileTransfer = new FileTransfer();
 
         fileTransfer.download(
             encodeURI(uri),
             encodeURI(fileURL),
-            function (entry) {
+            function () {
                 // Download Success!
                 hideToast();
             },
