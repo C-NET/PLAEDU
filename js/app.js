@@ -1995,7 +1995,7 @@ function addhttp($url) {
 function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/download";
+        var fileURL = "cdvfile://localhost/persistent/lean/";
         downloadPdf(contentId, fileURL);
     }
     else {
@@ -2019,7 +2019,7 @@ function prepareDownloadPdf(contentId,fileName)
 function downloadPdf(contentId, fileURL)
 {
     debugger;
-    showToast("Descargando Archivo", false);
+    showToast("Descargando Archivo", true);
         
     var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
@@ -2029,12 +2029,15 @@ function downloadPdf(contentId, fileURL)
     encodeURI(uri),
     fileURL,
     function (entry) {
+        showToast("Success", true);
         console.log("download complete: " + entry.fullPath);
     },
     function (error) {
+        showToast(error, true);
         console.log("download error source " + error.source);
         console.log("download error target " + error.target);
         console.log("upload error code" + error.code);
+        //hideToast();
     },
     false,
     {
