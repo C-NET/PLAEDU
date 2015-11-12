@@ -2019,25 +2019,49 @@ function downloadPdf(contentId, fileURL, fileName)
 {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    var relativeFilePath = fileName;  // using an absolute path also does not work
+    //var relativeFilePath = fileName;  // using an absolute path also does not work
 
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-        var fileTransfer = new FileTransfer();
-        fileTransfer.download(
-           downloadUrl,
-           // The correct path!
-           fileSystem.root.toURL() + '/' + relativeFilePath,
+    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+    //    var fileTransfer = new FileTransfer();
+    //    fileTransfer.download(
+    //       downloadUrl,
+    //       // The correct path!
+    //       fileSystem.root.toURL() + '/' + relativeFilePath,
 
-           function (entry) {
-               console.log("Success");
-               showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
+    //       function (entry) {
+    //           console.log("Success");
+    //           showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
 
-           },
-           function (error) {
-               console.log("Error during download. Code = " + error.code);
-           }
-        );
-    });
+    //       },
+    //       function (error) {
+    //           console.log("Error during download. Code = " + error.code);
+    //       }
+    //    );
+    //});
+
+    var store = cordova.file.dataDirectory;
+
+    //Check for the file. 
+    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store,fileName,downloadUrl));
+}
+
+function downloadAsset(store,filename,url) {
+    var fileTransfer = new FileTransfer();
+    console.log("About to start transfer");
+    fileTransfer.download(url, store + fileName,
+		function (entry) {
+		    console.log("Success!");
+		    appStart();
+		},
+		function (err) {
+		    console.log("Error");
+		    console.dir(err);
+		});
+}
+
+//I'm only called when the file exists or has been downloaded.
+function appStart() {
+    showToast("Success");
 }
 
 function fail(error) {
