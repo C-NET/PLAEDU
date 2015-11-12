@@ -1977,7 +1977,7 @@ function openExternalLink()
 
     if (contentTypeId === "3") {
         window.open(encodeURI(uri), '_system', 'location=yes');
-        //prepareDownloadPdf(contentId, a);
+        prepareDownloadPdf(contentId, a);
     }
     else {
         window.open(addhttp(a), '_system', 'location=yes');
@@ -2021,7 +2021,7 @@ function downloadPdf(contentId, fileURL)
     debugger;
     showToast("Descargando Archivo", false);
         
-    var uri = IMG_DOWNLOAD_SERVER + "/media/media?contentId=" + contentId;
+    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
     var fileTransfer = new FileTransfer();
 
