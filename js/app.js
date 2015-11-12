@@ -1995,7 +1995,7 @@ function prepareDownloadPdf(contentId,fileName)
 {
     if (!WP8) {
         var fileURL = "cdvfile://localhost/persistent/lean/" + fileName;
-        downloadPdf(contentId, fileURL);
+        downloadPdf(contentId, fileURL, fileName);
     }
     else {
         window.requestFileSystem(lfsType, 0, function (fs) {
@@ -2015,25 +2015,29 @@ function prepareDownloadPdf(contentId,fileName)
     }
 }
 
-function downloadPdf(contentId, fileURL)
+function downloadPdf(contentId, fileURL, fileName)
 {
-    var remoteFile = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+    var downloadUrl = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    var localFileName = remoteFile.substring(remoteFile.lastIndexOf('/') + 1);
+    var relativeFilePath = "lean" + fileName;  // using an absolute path also does not work
 
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-        fileSystem.root.getFile(localFileName, { create: true, exclusive: false }, function (fileEntry) {
-            var localPath = fileEntry.fullPath;
-            if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
-                localPath = localPath.substring(7);
-            }
-            var ft = new FileTransfer();
-            ft.download(remoteFile,
-                localPath, function (entry) {
-                        
-                }, fail);
-        }, fail);
-    }, fail);
+        var fileTransfer = new FileTransfer();
+        fileTransfer.download(
+           downloadUrl,
+           // The correct path!
+           fileSystem.root.toURL() + '/' + relativeFilePath,
+
+           function (entry) {
+               console.log("Success");
+               showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
+
+           },
+           function (error) {
+               console.log("Error during download. Code = " + error.code);
+           }
+        );
+    });
 }
 
 function fail(error) {
