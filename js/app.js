@@ -1974,7 +1974,9 @@ function openExternalLink()
     var a = $("#lnkOpenContent").attr('data-Link');
 
     if (contentTypeId === "3") {
-        prepareDownloadPdf(contentId, a);
+        //prepareDownloadPdf(contentId, a);
+        var uri = IMG_DOWNLOAD_SERVER + "/" + a;
+        window.open(addhttp(uri), '_system', 'location=yes');
     }
     else {
         window.open(addhttp(a), '_system', 'location=yes');
@@ -2024,7 +2026,7 @@ function downloadPdf(contentId, fileURL)
     fileTransfer.download(
         encodeURI(uri),
         encodeURI(fileURL),
-        function () {
+        function (entry) {
             // Download Success!
             hideToast();
         },
