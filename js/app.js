@@ -1976,7 +1976,6 @@ function openExternalLink()
     var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId
 
     if (contentTypeId === "3") {
-        window.open(encodeURI(uri), '_system', 'location=yes');
         prepareDownloadPdf(contentId, a);
     }
     else {
@@ -2019,7 +2018,7 @@ function prepareDownloadPdf(contentId,fileName)
 function downloadPdf(contentId, fileURL)
 {
     debugger;
-    showToast("Descargando Archivo", true);
+    //showToast("Descargando Archivo", true);
         
     var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
