@@ -2019,7 +2019,7 @@ function downloadPdf(contentId, fileURL, fileName)
 {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    var relativeFilePath = "lean" + fileName;  // using an absolute path also does not work
+    var relativeFilePath = fileName;  // using an absolute path also does not work
 
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
         var fileTransfer = new FileTransfer();
