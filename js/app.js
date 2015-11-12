@@ -2045,12 +2045,13 @@ function downloadPdf(contentId, fileURL, fileName)
     window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store,fileName,downloadUrl));
 }
 
-function downloadAsset(store,filename,url) {
+function downloadAsset(store,fileName,url) {
     var fileTransfer = new FileTransfer();
     console.log("About to start transfer");
     fileTransfer.download(url, store + fileName,
 		function (entry) {
 		    console.log("Success!");
+		    showToast(store, true);
 		    appStart();
 		},
 		function (err) {
