@@ -2017,28 +2017,24 @@ function prepareDownloadPdf(contentId,fileName)
 
 function downloadPdf(contentId, fileURL)
 {
-    function download() {
-        var remoteFile = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+    var remoteFile = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-        var localFileName = remoteFile.substring(remoteFile.lastIndexOf('/') + 1);
+    var localFileName = remoteFile.substring(remoteFile.lastIndexOf('/') + 1);
 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-            fileSystem.root.getFile(localFileName, { create: true, exclusive: false }, function (fileEntry) {
-                var localPath = fileEntry.fullPath;
-                if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
-                    localPath = localPath.substring(7);
-                }
-                var ft = new FileTransfer();
-                ft.download(remoteFile,
-                    localPath, function (entry) {
-                        var dwnldImg = document.getElementById("dwnldImg");
-                        dwnldImg.src = entry.fullPath;
-                        dwnldImg.style.visibility = "visible";
-                        dwnldImg.style.display = "block";
-                    }, fail);
-            }, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+        fileSystem.root.getFile(localFileName, { create: true, exclusive: false }, function (fileEntry) {
+            var localPath = fileEntry.fullPath;
+            if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+                localPath = localPath.substring(7);
+            }
+            var ft = new FileTransfer();
+            ft.download(remoteFile,
+                localPath, function (entry) {
+                        
+                }, fail);
         }, fail);
-    }
+    }, fail);
+}
 
     function fail(error) {
         console.log(error.code);
