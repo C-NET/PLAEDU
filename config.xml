@@ -5,7 +5,7 @@
         versionCode = "10" 
         version     = "1.0.0" >
 
-    <name>Autoinflam</name>
+    <name>com.novartis.autoinflam</name>
 
     <description>
 		Plataforma orientada a la comunicación y capacitación de profesionales especialistas en enfermedades auto inflamatorias.
