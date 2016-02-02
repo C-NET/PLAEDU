@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "http://localhost:49306/api";
-var WEBAPI_SERVER = WP8 ? "http://localhost:49306/oData" : "http://localhost:49306/oData";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://localhost:2488" : "http://localhost:2488";
-var ODATA_SERVER = (RIPPLE) ? "http://localhost:49306/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://10.0.0.14:49306/api";
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.14:49306/oData" : "http://10.0.0.14:49306/oData";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.14:2488" : "http://10.0.0.14:2488";
+var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.14:49306/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
