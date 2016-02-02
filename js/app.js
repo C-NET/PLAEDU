@@ -5,9 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI_SERVER = WP8 ? "http://api.autoinflam.com" : "http://api.autoinflam.com";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://autoinflam.novartis.edge-access.net" : "http://autoinflam.novartis.edge-access.net";
-var ODATA_SERVER = (RIPPLE) ? "http://api.autoinflam.com/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://localhost:49306/api";
+var WEBAPI_SERVER = WP8 ? "http://localhost:49306/oData" : "http://localhost:49306/oData";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://localhost:2488" : "http://localhost:2488";
+var ODATA_SERVER = (RIPPLE) ? "http://localhost:49306/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
@@ -207,7 +208,7 @@ var app = {
         app.instantiateContexts();
     },
 
-    
+
 
     createKendoApp: function () {
 
@@ -315,6 +316,16 @@ var app = {
             UserId: { type: 'Edm.Int32', required: true }
         });
 
+        $data.Entity.extend('$plaedu.Types.AuthenticationResult', {
+            AccountLocked: { type: 'Edm.Boolean', required: true },
+            Authenticated: { type: 'Edm.Int32', required: true },
+            Attempts: { type: 'Edm.Int32', required: true },
+            Email: { type: 'Edm.String', required: true },
+            Password: { type: 'Edm.String', required: false },
+            Message: { type: 'Edm.String', required: true },
+            User: { type: '$plaedu.Types.User', required: false }
+        });
+
         $data.EntityContext.extend('$plaedu.Types.PlaeduContext', {
             CommentMails: { type: $data.EntitySet, elementType: $plaedu.Types.CommentMail },
             Images: { type: $data.EntitySet, elementType: $plaedu.Types.Image },
@@ -324,7 +335,8 @@ var app = {
             Specialties: { type: $data.EntitySet, elementType: $plaedu.Types.Specialty },
             Countries: { type: $data.EntitySet, elementType: $plaedu.Types.Country },
             Users: { type: $data.EntitySet, elementType: $plaedu.Types.User },
-            Contents: { type: $data.EntitySet, elementType: $plaedu.Types.Content }
+            Contents: { type: $data.EntitySet, elementType: $plaedu.Types.Content },
+            AuthenticationResults: { type: $data.EntitySet, elementType: $plaedu.Types.AuthenticationResult }
         });
     },
 
@@ -348,8 +360,31 @@ var app = {
         $plaedu.context.Users.toArray() // Este array tiene 0 o 1 elemento. El usuario logeado en la aplicación.
             .done(function (users) {
                 if (users.length > 0) {
-                    app.fillUserVM(users[0]);
-                    app.kendoapp.replace("#home");
+                    jQuery.support.cors = true;
+                    $.ajax({
+                        url: WEBAPI + "/AuthenticationResults/Authenticate" + "?email=" + users[0].Email + "&password=" + users[0].Password,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (data) {
+                            debugger;
+                            if (data.AccountLocked) {
+                                ShowMessage(data.Message);
+                            } else if (data.Attempts > 0) {
+                                ShowMessage(data.Message);
+                            } else if (data.Authenticated === 1) {
+                                if (data.User.Active) {
+                                    loginVM.set("authenticationResult", "");
+                                    loginVM.set("email", "");
+                                    app.fillUserVM(data.User);
+                                    app.kendoapp.replace("#home");
+                                    $(".loadingSpinner").hide();
+                                }
+                                ShowMessage("Usuario Inactivo");
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
                 }
             })
             .fail(function (error) {
@@ -464,10 +499,10 @@ var app = {
     //-------------Inicio Login-------------
 
     inFocus: function () {
-        document.getElementsByClassName("nm-alert")[0].innerHTML = "";      
-        document.getElementById("loginResult").style.display="none";
-    },    
-    
+        document.getElementsByClassName("nm-alert")[0].innerHTML = "";
+        document.getElementById("loginResult").style.display = "none";
+    },
+
     beforeShowLogin: function (e) {
 
         if (userVM.userId > 0) {
@@ -502,47 +537,44 @@ var app = {
 
         $(".loadingSpinner").show();
 
-        $plaedu.context.remote.Users
-            .filter(function (remoteUser) {
-                return remoteUser.Email == this.email && remoteUser.Password == this.password;
-            }, { email: loginVM.email, password: loginVM.password })
-            .toArray()
-                .done(function (remoteUsers) {
-                    loginVM.set("password", "");
-
-                    if (remoteUsers.length == 1) {
-                        $plaedu.context.Users.toArray()
-                            .done(function (localUsers) {
-                                localUsers.forEach(function (localUser) { $plaedu.context.Users.remove(localUser); });
-                                $plaedu.context.Users.add(remoteUsers[0]);
-                                $plaedu.context.saveChanges()
-                                    .done(function () {
-                                        loginVM.set("authenticationResult", "");
-                                        loginVM.set("email", "");
-                                        app.fillUserVM(remoteUsers[0]);
-                                        app.kendoapp.replace("#home");
-                                    })
-                                    .fail(function (error) {
-                                        logError("Error grabando en el dispositivo el usuario autenticado.", error);
-                                    })
-                                    .always(function () {
-                                        $(".loadingSpinner").hide();
-                                    });
+        jQuery.support.cors = true;
+        $.ajax({
+            url: WEBAPI + "/AuthenticationResults/Authenticate" + "?email=" + loginVM.email + "&password=" + loginVM.password,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                debugger;
+                if (data.AccountLocked) {
+                    ShowMessage(data.Message);
+                } else if (data.Attempts > 0) {
+                    ShowMessage(data.Message);
+                } else if (data.Authenticated === 1) {
+                    if (data.User.Active) {
+                        $plaedu.context.Users.add(data.User);
+                        $plaedu.context.saveChanges()
+                            .done(function () {
+                                loginVM.set("authenticationResult", "");
+                                loginVM.set("email", "");
+                                app.fillUserVM(data.User);
+                                app.kendoapp.replace("#home");
+                            })
+                            .fail(function (error) {
+                                logError("Error grabando en el dispositivo el usuario autenticado.", error);
+                            })
+                            .always(function () {
+                                $(".loadingSpinner").hide();
                             });
                     }
-                    else {
-                        $(".loadingSpinner").hide();
-                        document.getElementById("loginResult").removeAttribute("style");
-                        document.getElementsByClassName("nm-alert")[0].innerHTML = "Email o contrase\u00f1a incorrectos.";
-                        loginVM.set("authenticationResult", "Email o contrase\u00f1a incorrectos.");
-                    }
-                })
-                .fail(function (error) {
-                    $(".loadingSpinner").hide();
-                    loginVM.set("authenticationResult", "Ocurri\u00f3 un error al autenticar el usuario. \n Por favor, intente nuevamente m\u00e1s tarde. \n Gracias.");
-                    logError("Error al autenticar el usuario: ", error);
-                });
+
+                    ShowMessage("Usuario Inactivo");
+                }
+            },
+            error: function () {
+            }
+        });
     },
+
+
 
     showNewUser: function (e) {
 
@@ -1764,7 +1796,7 @@ var app = {
     showContentDetail: function (e) {
 
         debugger;
-        
+
         var contentVM = contentsVM.contents.get(e.view.params.contentid);
 
         contentVM.FormattedDateTime = kendo.toString(contentVM.PublishDateTime, "g");
@@ -1788,17 +1820,62 @@ var app = {
     openAboutView: function (event) {
         app.kendoapp.navigate('#about');
     },
-    
-    openTermsView: function (event){
+
+    openTermsView: function (event) {
         app.kendoapp.navigate('#termsAndConditions');
     }
 
     //-------------Fin Funciones que involucran app-------------
-    
+
 };
 
 // INCIALIZACIÓN DE APP
 app.initialize();
+
+function CallAuthenticationWebApi(email, password) {
+    jQuery.support.cors = true;
+    $.ajax({
+        url: WEBAPI + "/AuthenticationResults/Authenticate" + "?email=" + email + "&password=" + password,
+        type: 'POST',
+        dataType: 'json',
+        success: function (data) {
+            debugger;
+            if (data.AccountLocked) {
+                ShowMessage(data.Message);
+            } else if (data.Attempts > 0) {
+                ShowMessage(data.Message);
+            } else if (data.Authenticated === 1) {
+                if (data.User.Active) {
+                    $plaedu.context.Users.add(data.User);
+                    $plaedu.context.saveChanges()
+                        .done(function () {
+                            loginVM.set("authenticationResult", "");
+                            loginVM.set("email", "");
+                            app.fillUserVM(data.User);
+                            app.kendoapp.replace("#home");
+                        })
+                        .fail(function (error) {
+                            logError("Error grabando en el dispositivo el usuario autenticado.", error);
+                        })
+                        .always(function () {
+                            $(".loadingSpinner").hide();
+                        });
+                }
+
+                ShowMessage("Usuario Inactivo");
+            }
+        },
+        error: function () {
+        }
+    });
+};
+
+function ShowMessage(message) {
+    $(".loadingSpinner").hide();
+    document.getElementById("loginResult").removeAttribute("style");
+    document.getElementsByClassName("nm-alert")[0].innerHTML = message;
+    loginVM.set("authenticationResult", message);
+};
 
 // Borra el array destino y lo completa con el array origen
 function fillDropDownList(destinationArray, sourceArray, addAll, addNone) {
@@ -1966,8 +2043,7 @@ function loginMedico() {
     app.authenticateUser();
 }
 
-function openExternalLink()
-{
+function openExternalLink() {
     debugger;
     var contentTypeId = $("#txtContentTypeId").val();
     var contentId = $("#txtContentId").val();
@@ -1991,8 +2067,7 @@ function addhttp($url) {
     return $url;
 }
 
-function prepareDownloadPdf(contentId,fileName)
-{
+function prepareDownloadPdf(contentId, fileName) {
     if (!WP8) {
         var fileURL = "cdvfile://localhost/persistent/lean/" + fileName;
         downloadPdf(contentId, fileURL, fileName);
@@ -2015,8 +2090,7 @@ function prepareDownloadPdf(contentId,fileName)
     }
 }
 
-function downloadPdf(contentId, fileURL, fileName)
-{
+function downloadPdf(contentId, fileURL, fileName) {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
     //var relativeFilePath = fileName;  // using an absolute path also does not work
@@ -2042,10 +2116,10 @@ function downloadPdf(contentId, fileURL, fileName)
     var store = cordova.file.dataDirectory;
 
     //Check for the file. 
-    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store,fileName,downloadUrl));
+    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store, fileName, downloadUrl));
 }
 
-function downloadAsset(store,fileName,url) {
+function downloadAsset(store, fileName, url) {
     var fileTransfer = new FileTransfer();
     console.log("About to start transfer");
     fileTransfer.download(url, store + fileName,
@@ -2066,36 +2140,36 @@ function appStart() {
 }
 
 function fail(error) {
-        console.log(error.code);
-    }
+    console.log(error.code);
+}
 
 
 
 
-    //debugger;
-    ////showToast("Descargando Archivo", true);
-        
-    //var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+//debugger;
+////showToast("Descargando Archivo", true);
 
-    //var fileTransfer = new FileTransfer();
+//var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    //fileTransfer.download(
-    //encodeURI(uri),
-    //fileURL,
-    //function (entry) {
-    //    showToast("Success", true);
-    //    console.log("download complete: " + entry.fullPath);
-    //},
-    //function (error) {
-    //    showToast(error, true);
-    //    console.log("download error source " + error.source);
-    //    console.log("download error target " + error.target);
-    //    console.log("upload error code" + error.code);
-    //    //hideToast();
-    //},
-    //false,
-    //{
-    //    headers: {
-    //        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-    //    }
-    //});
+//var fileTransfer = new FileTransfer();
+
+//fileTransfer.download(
+//encodeURI(uri),
+//fileURL,
+//function (entry) {
+//    showToast("Success", true);
+//    console.log("download complete: " + entry.fullPath);
+//},
+//function (error) {
+//    showToast(error, true);
+//    console.log("download error source " + error.source);
+//    console.log("download error target " + error.target);
+//    console.log("upload error code" + error.code);
+//    //hideToast();
+//},
+//false,
+//{
+//    headers: {
+//        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+//    }
+//});
