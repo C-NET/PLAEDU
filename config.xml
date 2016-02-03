@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         id          = "com.novartis.autoinflam"
         versionCode = "10" 
         version     = "1.0.0" >
@@ -15,6 +16,10 @@
 		C-NET S.R.L.
 	</author>
 
+      <gap:config-file platform="android" parent="/manifest">
+     <application android:debuggable="true" />
+</gap:config-file>
+      
 	<content src="index.html" />
 
 	<access origin="*" browserOnly="true" />
