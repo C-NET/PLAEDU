@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "http://10.0.0.13/plaedu_webapi/api";
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/plaedu_webapi" : "http://10.0.0.13/plaedu_webapi";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/PlaEdu" : "http://10.0.0.13/PlaEdu";
-var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/plaedu_webapi/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "https://10.0.0.13/plaedu_webapi/api";
+var WEBAPI_SERVER = WP8 ? "https://10.0.0.13/plaedu_webapi" : "https://10.0.0.13/plaedu_webapi";
+var IMG_DOWNLOAD_SERVER = WP8 ? "https://10.0.0.13/PlaEdu" : "https://10.0.0.13/PlaEdu";
+var ODATA_SERVER = (RIPPLE) ? "https://10.0.0.13/plaedu_webapi/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
