@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "https://10.0.0.13/plaedu_webapi/api";
-var WEBAPI_SERVER = WP8 ? "https://10.0.0.13/plaedu_webapi" : "https://10.0.0.13/plaedu_webapi";
-var IMG_DOWNLOAD_SERVER = WP8 ? "https://10.0.0.13/PlaEdu" : "https://10.0.0.13/PlaEdu";
-var ODATA_SERVER = (RIPPLE) ? "https://10.0.0.13/plaedu_webapi/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://10.0.0.13/PLAEDU.App.WebAPI/api";
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU.App.WebAPI" : "http://10.0.0.13/PLAEDU.App.WebAPI";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://localhost:2488" : "http://localhost:2488";
+var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU.App.WebAPI/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
@@ -207,8 +207,6 @@ var app = {
 
         app.instantiateContexts();
     },
-
-
 
     createKendoApp: function () {
 
@@ -527,6 +525,12 @@ var app = {
     // Envia las credenciales al servidor para autenticar al usuario. (Llamada desde menú)
     authenticateUser: function (e) {
 
+        $plaedu.context.Users.forEach(function(item) {
+            $plaedu.context.Users.remove(item);
+        });
+        debugger;
+        $plaedu.context.saveChanges();
+
         var validator = loginVM.validator.data("kendoValidator");
 
         if (!validator.validate())
@@ -573,8 +577,6 @@ var app = {
             }
         });
     },
-
-
 
     showNewUser: function (e) {
 
@@ -861,7 +863,7 @@ var app = {
                     PathologyId: newcommentmailVM.selectedPathology,
                     UserId: userVM.userId,
                 });
-
+                debugger;
                 $plaedu.context.Cases.add(currentCase);
                 newcommentmailVM.caseEntity = currentCase;
             }
