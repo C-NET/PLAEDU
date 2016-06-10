@@ -1010,9 +1010,12 @@ var app = {
     },
 
     onSendImageFail: function (fileTransferError) {
+        showToast("Error", false);
         showToast(fileTransferError.code, false);
         showToast(fileTransferError.source, false);
         showToast(fileTransferError.target, false);
+        showToast("Error", false);
+        showToast(fileTransferError.code, false);
         log("Error enviando la imagen al servidor");
         log("Code = " + fileTransferError.code);
         log("Source = " + fileTransferError.source);
