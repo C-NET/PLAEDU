@@ -984,6 +984,7 @@ var app = {
                     encodeURI(WEBAPI_SERVER + "/api/upload"),
                     function (fileUploadResult) {
                         app.onSendImageSuccess(fileUploadResult, attachedImage);
+                        showToast("Exito", false);
                     },
                     app.onSendImageFail,
                     options,
@@ -1009,6 +1010,9 @@ var app = {
     },
 
     onSendImageFail: function (fileTransferError) {
+        showToast(fileTransferError.code, false);
+        showToast(fileTransferError.source, false);
+        showToast(fileTransferError.target, false);
         log("Error enviando la imagen al servidor");
         log("Code = " + fileTransferError.code);
         log("Source = " + fileTransferError.source);
