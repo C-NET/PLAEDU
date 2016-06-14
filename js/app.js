@@ -1253,6 +1253,8 @@ var app = {
                 var imageTemplate = kendo.template($("#commentmailimage-template").html());
                 var imagesDiv = $("#commentMailImageBox" + commentUid);
 
+
+                log("imageUri" + imageEntity.ImageURI);
                 if (!imageEntity.ImageURI) {
 
                     log("Descargando imagenes");
@@ -1269,6 +1271,7 @@ var app = {
 
                 }
                 else {
+                    debugger;
                     var result = imageTemplate(imageEntity);
                     imagesDiv.append(result);
                 }
