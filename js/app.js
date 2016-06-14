@@ -7,7 +7,7 @@ var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows
 // Configuración de servidores
 var WEBAPI = "http://10.0.0.13/PLAEDU_WebAPI/api";
 var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI" : "http://10.0.0.13/PLAEDU_WebAPI";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://localhost:2488" : "http://localhost:2488";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/PlaEduWeb" : "http://10.0.0.13/PlaEduWeb";
 var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU_WebAPI/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
@@ -1320,7 +1320,7 @@ var app = {
 
     downloadImage: function (imageEntity, imageTemplate, imagesDiv, fileURL) {
         
-        var uri = WEBAPI_SERVER + "/api/download?uid=" + imageEntity.ImageUid;
+        var uri = IMG_DOWNLOAD_SERVER + "/downloads/download?uid=" + imageEntity.ImageUid;
 
         log("fileURL: " + encodeURI(fileURL));
 
