@@ -1255,6 +1255,7 @@ var app = {
 
 
                 log("imageUri" + imageEntity.ImageURI);
+                imageEntity.ImageURI = "";
                 if (!imageEntity.ImageURI) {
 
                     log("Descargando imagenes");
