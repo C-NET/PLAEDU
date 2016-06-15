@@ -525,7 +525,7 @@ var app = {
     // Envia las credenciales al servidor para autenticar al usuario. (Llamada desde menú)
     authenticateUser: function (e) {
 
-        $plaedu.context.Users.forEach(function(item) {
+        $plaedu.context.Users.forEach(function (item) {
             $plaedu.context.Users.remove(item);
         });
         debugger;
@@ -1319,7 +1319,7 @@ var app = {
     },
 
     downloadImage: function (imageEntity, imageTemplate, imagesDiv, fileURL) {
-        
+
         var uri = IMG_DOWNLOAD_SERVER + "/downloads/download?uid=" + imageEntity.ImageUid;
 
         log("fileURL: " + encodeURI(fileURL));
@@ -2083,7 +2083,7 @@ function addhttp($url) {
 
 function prepareDownloadPdf(contentId, fileName) {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/lean/" + fileName;
+        var fileURL = "cdvfile://localhost/persistent/" + fileName;
         downloadPdf(contentId, fileURL, fileName);
     }
     else {
@@ -2105,7 +2105,7 @@ function prepareDownloadPdf(contentId, fileName) {
 }
 
 function downloadPdf(contentId, fileURL, fileName) {
-    var downloadUrl = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+    var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + fileName;
 
     //var relativeFilePath = fileName;  // using an absolute path also does not work
 
