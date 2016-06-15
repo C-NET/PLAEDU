@@ -2084,7 +2084,7 @@ function addhttp($url) {
 
 function prepareDownloadPdf(contentId, fileName) {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/" + fileName;
+        var fileURL = "cdvfile://localhost/persistent/PlaEdu"+ fileName;
         downloadPdf(contentId, fileURL, fileName);
     }
     else {
@@ -2110,23 +2110,41 @@ function downloadPdf(contentId, fileURL, fileName) {
 
     var relativeFilePath = fileName;  // using an absolute path also does not work
 
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-        var fileTransfer = new FileTransfer();
-        fileTransfer.download(
-           downloadUrl,
-           // The correct path!
-           fileSystem.root.toURL() + '/' + relativeFilePath,
+    var fileTransfer = new FileTransfer();
 
-           function (entry) {
-               console.log("Success");
-               showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
+    fileTransfer.download(
+        encodeURI(downloadUrl),
+        encodeURI(fileURL),
+        function (entry) {
+            // Download Success!
+            showToast("Susccess / Exito");
+        },
+        function (error) {
+            // Download Error
+            hideToast();
+            log("download error source: " + error.source);
+            log("download error target: " + error.target);
+            log("download error code: " + error.code);
+        },
+        true); // TODO: trustAllHosts = true not recommended for production use. Supported on Android and iOS.
 
-           },
-           function (error) {
-               console.log("Error during download. Code = " + error.code);
-           }
-        );
-    });
+    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+    //    var fileTransfer = new FileTransfer();
+    //    fileTransfer.download(
+    //       downloadUrl,
+    //       // The correct path!
+    //       fileSystem.root.toURL() + '/' + relativeFilePath,
+
+    //       function (entry) {
+    //           console.log("Success");
+    //           showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
+
+    //       },
+    //       function (error) {
+    //           console.log("Error during download. Code = " + error.code);
+    //       }
+    //    );
+    //});
 
     //var store = cordova.file.dataDirectory;
 
