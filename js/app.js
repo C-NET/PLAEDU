@@ -6,7 +6,7 @@ var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows
 
 // Configuración de servidores
 var WEBAPI = "http://10.0.0.13/PLAEDU_WebAPI/api";
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI" : "http://10.0.0.13/PLAEDU_WebAPI";
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI/" : "http://10.0.0.13/PLAEDU_WebAPI/";
 var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/PlaEduWeb" : "http://10.0.0.13/PlaEduWeb";
 var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU_WebAPI/oData" : WEBAPI_SERVER + "/odata";
 
@@ -1764,6 +1764,7 @@ var app = {
         //Link externo -> ContentTypeId = 5
         debugger;
         var contentTypeId = e.view.params.contenttypeId;
+        log("ContentType: " + contentTypeId);
         $("#txtContentTypeId").val(e.view.params.contenttypeId);
 
         if (contentTypeId) {
@@ -2107,30 +2108,30 @@ function prepareDownloadPdf(contentId, fileName) {
 function downloadPdf(contentId, fileURL, fileName) {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + fileName;
 
-    //var relativeFilePath = fileName;  // using an absolute path also does not work
+    var relativeFilePath = fileName;  // using an absolute path also does not work
 
-    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-    //    var fileTransfer = new FileTransfer();
-    //    fileTransfer.download(
-    //       downloadUrl,
-    //       // The correct path!
-    //       fileSystem.root.toURL() + '/' + relativeFilePath,
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+        var fileTransfer = new FileTransfer();
+        fileTransfer.download(
+           downloadUrl,
+           // The correct path!
+           fileSystem.root.toURL() + '/' + relativeFilePath,
 
-    //       function (entry) {
-    //           console.log("Success");
-    //           showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
+           function (entry) {
+               console.log("Success");
+               showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
 
-    //       },
-    //       function (error) {
-    //           console.log("Error during download. Code = " + error.code);
-    //       }
-    //    );
-    //});
+           },
+           function (error) {
+               console.log("Error during download. Code = " + error.code);
+           }
+        );
+    });
 
-    var store = cordova.file.dataDirectory;
+    //var store = cordova.file.dataDirectory;
 
     //Check for the file. 
-    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store, fileName, downloadUrl));
+    //window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store, fileName, downloadUrl));
 }
 
 function downloadAsset(store, fileName, url) {
