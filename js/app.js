@@ -2110,8 +2110,8 @@ function downloadPdf(contentId, fileURL, fileName) {
 
     var fileTransfer = new FileTransfer();
     fileTransfer.download(
-        downloadUrl,
-        "file://sdcard/" + fileName,
+        encodeURI(downloadUrl),
+        "file://sdcard/download/" + fileName,
         function(entry) {
             alert("download complete: " + entry.fullPath);
         },
