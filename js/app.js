@@ -2084,7 +2084,7 @@ function addhttp($url) {
 
 function prepareDownloadPdf(contentId, fileName) {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/PlaEdu/"+ fileName;
+        var fileURL = "cdvfile://localhost/temporary/" + fileName;
         downloadPdf(contentId, fileURL, fileName);
     }
     else {
@@ -2092,10 +2092,10 @@ function prepareDownloadPdf(contentId, fileName) {
             fs.root.getDirectory("plaedu", {
                 create: true,
                 exclusive: false
-            }, function (directory) {
+            }, function(directory) {
                 var fileURL = directory.toURL() + "/" + fileName;
                 downloadPdf(contentId);
-            })
+            });
         }, function (error) {
             hideToast();
             console.log("requestFileSystem error code: " + error.code);
