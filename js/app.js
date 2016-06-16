@@ -2108,60 +2108,71 @@ function prepareDownloadPdf(contentId, fileName) {
 function downloadPdf(contentId, fileURL, fileName) {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + fileName;
 
-    window.open(encodeURI('https://docs.google.com/gview?embedded=true&url='+downloadUrl), '_blank', 'location=yes,EnableViewPortScale=yes');
+    var fileTransfer = new FileTransfer();
+    fileTransfer.download(
+        downloadUrl,
+        "file://sdcard/" + fileName,
+        function(entry) {
+            alert("download complete: " + entry.fullPath);
+        },
+        function(error) {
+            alert("download error source " + error.source);
+            alert("download error target " + error.target);
+            alert("upload error code" + error.code);
+        });
 }
 
 function downloadAsset(store, fileName, url) {
-    var fileTransfer = new FileTransfer();
-    console.log("About to start transfer");
-    fileTransfer.download(url, store + fileName,
-		function (entry) {
-		    console.log("Success!");
-		    showToast(store, true);
-		    appStart();
-		},
-		function (err) {
-		    console.log("Error");
-		    console.dir(err);
-		});
-}
+        var fileTransfer = new FileTransfer();
+        console.log("About to start transfer");
+        fileTransfer.download(url, store + fileName,
+            function (entry) {
+                console.log("Success!");
+                showToast(store, true);
+                appStart();
+            },
+            function (err) {
+                console.log("Error");
+                console.dir(err);
+            });
+    }
 
-//I'm only called when the file exists or has been downloaded.
-function appStart() {
-    showToast("Success");
-}
+    //I'm only called when the file exists or has been downloaded.
+    function appStart() {
+        showToast("Success");
+    }
 
-function fail(error) {
-    console.log(error.code);
-}
-
-
+    function fail(error) {
+        console.log(error.code);
+    }
 
 
-//debugger;
-////showToast("Descargando Archivo", true);
 
-//var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-//var fileTransfer = new FileTransfer();
+    //debugger;
+    ////showToast("Descargando Archivo", true);
 
-//fileTransfer.download(
-//encodeURI(uri),
-//fileURL,
-//function (entry) {
-//    showToast("Success", true);
-//    console.log("download complete: " + entry.fullPath);
-//},
-//function (error) {
-//    showToast(error, true);
-//    console.log("download error source " + error.source);
-//    console.log("download error target " + error.target);
-//    console.log("upload error code" + error.code);
-//    //hideToast();
-//},
-//false,
-//{
-//    headers: {
-//        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-//    }
-//});
+    //var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+
+    //var fileTransfer = new FileTransfer();
+
+    //fileTransfer.download(
+    //encodeURI(uri),
+    //fileURL,
+    //function (entry) {
+    //    showToast("Success", true);
+    //    console.log("download complete: " + entry.fullPath);
+    //},
+    //function (error) {
+    //    showToast(error, true);
+    //    console.log("download error source " + error.source);
+    //    console.log("download error target " + error.target);
+    //    console.log("upload error code" + error.code);
+    //    //hideToast();
+    //},
+    //false,
+    //{
+    //    headers: {
+    //        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+    //    }
+    //});
