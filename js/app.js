@@ -2117,10 +2117,14 @@ function downloadPdf(contentId, fileURL, fileName) {
         encodeURI(downloadUrl),
         encodeURI(fileURL),
         function (entry) {
-            // Download Success!
-            showToast("Susccess / Exito");
+            log(fileUrl);
+            log(entry);
+            showToast(entry);
             window.plugins.pdfViewer.showPdf(fileURL);
             showToast(fileURL);
+            // Download Success!
+            showToast("Susccess / Exito");
+            
         },
         function (error) {
             // Download Error
