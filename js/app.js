@@ -2084,7 +2084,7 @@ function addhttp($url) {
 
 function prepareDownloadPdf(contentId, fileName) {
     if (!WP8) {
-        var fileURL = "cdvfile://localhost/persistent/PlaEdu"+ fileName;
+        var fileURL = "cdvfile://localhost/persistent/PlaEdu/"+ fileName;
         downloadPdf(contentId, fileURL, fileName);
     }
     else {
