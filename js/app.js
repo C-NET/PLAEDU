@@ -2108,55 +2108,7 @@ function prepareDownloadPdf(contentId, fileName) {
 function downloadPdf(contentId, fileURL, fileName) {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + fileName;
 
-    var relativeFilePath = fileName;  // using an absolute path also does not work
-    var filePath = fileURL + fileName;
-
-    var fileTransfer = new FileTransfer();
-
-    fileTransfer.download(
-        encodeURI(downloadUrl),
-        encodeURI(fileURL),
-        function (entry) {
-            showToast(fileURL);
-            log(fileUrl);
-            log(entry);
-            showToast(entry);
-            window.plugins.pdfViewer.showPdf(fileURL);
-            // Download Success!
-            showToast("Susccess / Exito");
-            
-        },
-        function (error) {
-            // Download Error
-            hideToast();
-            log("download error source: " + error.source);
-            log("download error target: " + error.target);
-            log("download error code: " + error.code);
-        },
-        true); // TODO: trustAllHosts = true not recommended for production use. Supported on Android and iOS.
-
-    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-    //    var fileTransfer = new FileTransfer();
-    //    fileTransfer.download(
-    //       downloadUrl,
-    //       // The correct path!
-    //       fileSystem.root.toURL() + '/' + relativeFilePath,
-
-    //       function (entry) {
-    //           console.log("Success");
-    //           showToast(fileSystem.root.toURL() + '/' + relativeFilePath, true);
-
-    //       },
-    //       function (error) {
-    //           console.log("Error during download. Code = " + error.code);
-    //       }
-    //    );
-    //});
-
-    //var store = cordova.file.dataDirectory;
-
-    //Check for the file. 
-    //window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(store, fileName, downloadUrl));
+    window.open(encodeURI('https://docs.google.com/gview?embedded=true&url='+downloadUrl), '_blank', 'location=yes,EnableViewPortScale=yes');
 }
 
 function downloadAsset(store, fileName, url) {
