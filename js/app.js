@@ -2067,7 +2067,9 @@ function openExternalLink() {
     var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId
 
     if (contentTypeId === "3") {
-        prepareDownloadPdf(contentId, a);
+        var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + a;
+        window.open(downloadUrl, '_system', 'location=yes');
+        //prepareDownloadPdf(contentId, a);
     }
     else {
         window.open(addhttp(a), '_system', 'location=yes');
