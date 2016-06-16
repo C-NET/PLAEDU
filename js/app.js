@@ -2109,6 +2109,7 @@ function downloadPdf(contentId, fileURL, fileName) {
     var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + fileName;
 
     var relativeFilePath = fileName;  // using an absolute path also does not work
+    var filePath = fileURL + fileName;
 
     var fileTransfer = new FileTransfer();
 
@@ -2118,6 +2119,8 @@ function downloadPdf(contentId, fileURL, fileName) {
         function (entry) {
             // Download Success!
             showToast("Susccess / Exito");
+            window.plugins.pdfViewer.showPdf(fileURL);
+            showToast(fileURL);
         },
         function (error) {
             // Download Error
