@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "http://10.0.0.13/PLAEDU_WebAPI/api";
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.13/PLAEDU_WebAPI/" : "http://10.0.0.13/PLAEDU_WebAPI/";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.13/PlaEduWeb" : "http://10.0.0.13/PlaEduWeb";
-var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.13/PLAEDU_WebAPI/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://fdcotic-001-site4.atempurl.com/api";
+var WEBAPI_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com" : "http://fdcotic-001-site4.atempurl.com";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com" : "http://fdcotic-001-site4.atempurl.com";
+var ODATA_SERVER = (RIPPLE) ? "http://fdcotic-001-site4.atempurl.com/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
@@ -572,6 +572,8 @@ var app = {
 
                     ShowMessage("Usuario Inactivo");
                 }
+                ShowMessage(data.Message);
+                $(".loadingSpinner").hide();
             },
             error: function () {
             }
