@@ -364,7 +364,6 @@ var app = {
                         type: 'POST',
                         dataType: 'json',
                         success: function (data) {
-                            debugger;
                             if (data.AccountLocked) {
                                 ShowMessage(data.Message);
                             } else if (data.Attempts > 0) {
@@ -547,7 +546,6 @@ var app = {
             type: 'POST',
             dataType: 'json',
             success: function (data) {
-                debugger;
                 if (data.AccountLocked) {
                     ShowMessage(data.Message);
                 } else if (data.Attempts > 0) {
