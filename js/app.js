@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "http://fdcotic-001-site4.atempurl.com/api";
-var WEBAPI_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com" : "http://fdcotic-001-site4.atempurl.com";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com" : "http://fdcotic-001-site4.atempurl.com";
-var ODATA_SERVER = (RIPPLE) ? "http://fdcotic-001-site4.atempurl.com/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://localhost:59329/api";
+var WEBAPI_SERVER = WP8 ? "http://localhost:59329/" : "http://localhost:59329/";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://localhost:59329/" : "http://localhost:59329/";
+var ODATA_SERVER = (RIPPLE) ? "http://localhost:59329/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
@@ -407,7 +407,6 @@ var app = {
 
     // Carga los datos estáticos desde la base de datos local (no va a buscarlos al servidor)
     fillViewModels: function () {
-        debugger;
         var dPathologies = $plaedu.context.Pathologies.toArray();
         var dExperts = $plaedu.context.Experts.toArray();
         var dSpecialties = $plaedu.context.Specialties.toArray();
@@ -523,11 +522,9 @@ var app = {
 
     // Envia las credenciales al servidor para autenticar al usuario. (Llamada desde menú)
     authenticateUser: function (e) {
-
         $plaedu.context.Users.forEach(function (item) {
             $plaedu.context.Users.remove(item);
         });
-        debugger;
         $plaedu.context.saveChanges();
 
         var validator = loginVM.validator.data("kendoValidator");
@@ -823,7 +820,6 @@ var app = {
                 minTextLength: function (input) {
                     if (input.is("[name=txaText]")) {
                         var minlength = input.attr("data-mintextlength");
-                        debugger;
                         return $.trim(input.val()) != "";
                     }
                     return true;
@@ -863,7 +859,6 @@ var app = {
                     PathologyId: newcommentmailVM.selectedPathology,
                     UserId: userVM.userId,
                 });
-                debugger;
                 $plaedu.context.Cases.add(currentCase);
                 newcommentmailVM.caseEntity = currentCase;
             }
@@ -1237,7 +1232,6 @@ var app = {
     },
 
     showCommentMailImages: function (commentUid) {
-        debugger;
         var imageDataSource = caseVM.getCommentMailImages(commentUid);
 
         imageDataSource.fetch(function () {
@@ -1272,7 +1266,6 @@ var app = {
 
                 }
                 else {
-                    debugger;
                     var result = imageTemplate(imageEntity);
                     imagesDiv.append(result);
                 }
@@ -1281,7 +1274,6 @@ var app = {
     },
 
     prepareDownloadImage: function (imageEntity, imageTemplate, imagesDiv) {
-        debugger;
         var lfsTypeStr;
         var lfsType;
 
@@ -1762,7 +1754,6 @@ var app = {
         //Archivo PDF -> ContentTypeId = 3
         //Aplicación -> ContentTypeId = 4
         //Link externo -> ContentTypeId = 5
-        debugger;
         var contentTypeId = e.view.params.contenttypeId;
         log("ContentType: " + contentTypeId);
         $("#txtContentTypeId").val(e.view.params.contenttypeId);
@@ -1809,9 +1800,6 @@ var app = {
     },
 
     showContentDetail: function (e) {
-
-        debugger;
-
         var contentVM = contentsVM.contents.get(e.view.params.contentid);
 
         contentVM.FormattedDateTime = kendo.toString(contentVM.PublishDateTime, "g");
@@ -1854,7 +1842,6 @@ function CallAuthenticationWebApi(email, password) {
         type: 'POST',
         dataType: 'json',
         success: function (data) {
-            debugger;
             if (data.AccountLocked) {
                 ShowMessage(data.Message);
             } else if (data.Attempts > 0) {
@@ -2059,7 +2046,6 @@ function loginMedico() {
 }
 
 function openExternalLink() {
-    debugger;
     var contentTypeId = $("#txtContentTypeId").val();
     var contentId = $("#txtContentId").val();
     var a = $("#lnkOpenContent").attr('data-Link');
