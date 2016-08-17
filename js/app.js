@@ -5,6 +5,8 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
+// 
+//var WEBAPI = "http://localhost:59329/api";
 var WEBAPI = "http://fdcotic-001-site4.atempurl.com/api";
 var WEBAPI_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com/" : "http://fdcotic-001-site4.atempurl.com/";
 var IMG_DOWNLOAD_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com/" : "http://fdcotic-001-site4.atempurl.com/";
@@ -266,6 +268,7 @@ var app = {
             LastChangeDateTime: { type: 'Edm.DateTime', required: true },
             PathologyId: { type: 'Edm.Int32', required: true },
             UserId: { type: 'Edm.Int32', required: true },
+            UserTypeId: { type: 'Edm.Int32', required: false },
             Sync: { type: 'Edm.Boolean', required: false }
         });
 
@@ -314,15 +317,15 @@ var app = {
             UserId: { type: 'Edm.Int32', required: true }
         });
 
-        $data.Entity.extend('$plaedu.Types.AuthenticationResult', {
-            AccountLocked: { type: 'Edm.Boolean', required: true },
-            Authenticated: { type: 'Edm.Int32', required: true },
-            Attempts: { type: 'Edm.Int32', required: true },
-            Email: { type: 'Edm.String', required: true },
-            Password: { type: 'Edm.String', required: false },
-            Message: { type: 'Edm.String', required: true },
-            User: { type: '$plaedu.Types.User', required: false }
-        });
+        //$data.Entity.extend('$plaedu.Types.AuthenticationResult', {
+        //    AccountLocked: { type: 'Edm.Boolean', required: true },
+        //    Authenticated: { type: 'Edm.Int32', required: true },
+        //    Attempts: { type: 'Edm.Int32', required: true },
+        //    Email: { type: 'Edm.String', required: true },
+        //    Password: { type: 'Edm.String', required: false },
+        //    Message: { type: 'Edm.String', required: true },
+        //    User: { type: '$plaedu.Types.User', required: false }
+        //});
 
         $data.EntityContext.extend('$plaedu.Types.PlaeduContext', {
             CommentMails: { type: $data.EntitySet, elementType: $plaedu.Types.CommentMail },
@@ -334,7 +337,7 @@ var app = {
             Countries: { type: $data.EntitySet, elementType: $plaedu.Types.Country },
             Users: { type: $data.EntitySet, elementType: $plaedu.Types.User },
             Contents: { type: $data.EntitySet, elementType: $plaedu.Types.Content },
-            AuthenticationResults: { type: $data.EntitySet, elementType: $plaedu.Types.AuthenticationResult }
+            //AuthenticationResults: { type: $data.EntitySet, elementType: $plaedu.Types.AuthenticationResult }
         });
     },
 
@@ -391,7 +394,6 @@ var app = {
     },
 
     fillUserVM: function (user) {
-
         if (user) {
             userVM.userId = user.UserId;
             userVM.userTypeId = user.UserTypeId;
@@ -531,7 +533,6 @@ var app = {
 
         if (!validator.validate())
             return;
-
         if (e)
             e.preventDefault();
 
@@ -1699,8 +1700,8 @@ var app = {
             })
             .then(function () {
                 return $plaedu.context.remote.Cases
-                    .filter("it.UserId == userId", { userId: userVM.userId })
-                    .forEach(function (rMyCase) {
+                    .filter("it.UserId == userId && it.UserTypeId == userTypeId", { userId: userVM.userId, userTypeId: userVM.userTypeId })
+                   .forEach(function (rMyCase) {
                         rMyCase.Sync = true;
                         $plaedu.context.Cases.add(rMyCase);
                     });
