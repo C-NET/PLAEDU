@@ -858,7 +858,7 @@ var app = {
                     ExpertUserId: newcommentmailVM.selectedExpert,
                     CaseStateId: CaseStates.MsgUsrPendingFQ,
                     PathologyId: newcommentmailVM.selectedPathology,
-                    UserId: userVM.userId,
+                    UserId: userVM.userId
                 });
                 $plaedu.context.Cases.add(currentCase);
                 newcommentmailVM.caseEntity = currentCase;
@@ -977,7 +977,7 @@ var app = {
 
                 fileTransfer.upload(
                     attachedImage.ImageURI,
-                    encodeURI(WEBAPI_SERVER + "/api/upload"),
+                    encodeURI(WEBAPI_SERVER + "api/upload"),
                     function (fileUploadResult) {
                         app.onSendImageSuccess(fileUploadResult, attachedImage);
                         showToast("Exito", false);
@@ -1288,7 +1288,7 @@ var app = {
         }
 
         if (!WP8) {
-            log("entró para bajar las imagenes")
+            log("entró para bajar las imagenes");
             var fileURL = "cdvfile://localhost/" + lfsTypeStr + "/" + imageEntity.FileName + "_" + imageEntity.ImageUid;
             app.downloadImage(imageEntity, imageTemplate, imagesDiv, fileURL);
         }
@@ -2051,7 +2051,7 @@ function openExternalLink() {
     var contentId = $("#txtContentId").val();
     var a = $("#lnkOpenContent").attr('data-Link');
 
-    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId
+    var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
     if (contentTypeId === "3") {
         var downloadUrl = IMG_DOWNLOAD_SERVER + "/Downloads/DownloadPdf?name=" + a;
