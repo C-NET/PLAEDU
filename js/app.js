@@ -973,12 +973,13 @@ var app = {
                 }
 
                 log("Enviando imagen: " + attachedImage.ImageURI);
-
+            log(encodeURI(WEBAPI_SERVER + "api/upload"));
+                showToast(encodeURI(WEBAPI_SERVER + "api/upload"), false);
                 var fileTransfer = new FileTransfer();
 
                 fileTransfer.upload(
                     attachedImage.ImageURI,
-                    encodeURI(WEBAPI_SERVER + "api/upload"),
+                    encodeURI(WEBAPI_SERVER + "/api/upload"),
                     function (fileUploadResult) {
                         app.onSendImageSuccess(fileUploadResult, attachedImage);
                         showToast("Exito", false);
