@@ -9,7 +9,7 @@ var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows
 //var WEBAPI = "http://localhost:59329/api";
 //var WEBAPI = "http://fdcotic-001-site4.atempurl.com/api";
 var WEBAPI = "http://10.0.0.25/PlaEduV2.Web/api";
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.25/PlaEduV2.Web/" : "http://10.0.0.25/PlaEduV2.Web/";
+var WEBAPI_SERVER = WP8 ? "http://10.0.0.25/PlaEduV2.Web" : "http://10.0.0.25/PlaEduV2.Web";
 var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.25/PlaEduV2.Web/" : "http://10.0.0.25/PlaEduV2.Web/";
 var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.25/PlaEduV2.Web/oData" : WEBAPI_SERVER + "/odata";
 
@@ -973,13 +973,12 @@ var app = {
                 }
 
                 log("Enviando imagen: " + attachedImage.ImageURI);
-            log(encodeURI(WEBAPI_SERVER + "api/upload"));
-                showToast(encodeURI(WEBAPI_SERVER + "api/upload"), false);
                 var fileTransfer = new FileTransfer();
+                log(WEBAPI_SERVER + "/api/Upload");
 
                 fileTransfer.upload(
                     attachedImage.ImageURI,
-                    encodeURI(WEBAPI_SERVER + "/api/upload"),
+                    encodeURI(WEBAPI_SERVER + "/api/Upload"),
                     function (fileUploadResult) {
                         app.onSendImageSuccess(fileUploadResult, attachedImage);
                         showToast("Exito", false);
@@ -1544,6 +1543,7 @@ var app = {
                 return app.syncFromServer();
             })
             .done(function () {
+                log("antes de send images");
                 app.sendImages();
             })
             .fail(function (error) {
@@ -1562,6 +1562,7 @@ var app = {
         var pendingCases = $plaedu.context.Cases.filter('it.Sync == false').toArray();
         var pendingCommentMails = $plaedu.context.CommentMails.filter('it.Sync == false').toArray();
         var pendingImages = $plaedu.context.Images.filter('it.Sync == false').toArray();
+        log("Filtros aceptados");
 
         return $.when(pendingCases, pendingCommentMails, pendingImages)
             .fail(function (error) {
@@ -1569,12 +1570,16 @@ var app = {
             })
             .then(function (pendingCasesArray, pendingCommentMailsArray, pendingImagesArray) {
                 $plaedu.context.remote.Cases.addMany(pendingCasesArray);
+                log("Casos Addmany...");
                 $plaedu.context.remote.CommentMails.addMany(pendingCommentMailsArray);
+                log("Comentarios Addmany...");
                 $plaedu.context.remote.Images.addMany(pendingImagesArray);
+                log("imagesnes Addmany.......");
                 return $plaedu.context.remote.saveChanges()
                     .fail(function (error) {
                         showModalMessage("Error", "Ocurri\u00f3 un error en la sincronizaci\u00f3n. \n Por favor intente nuevamente mas tarde. Gracias.");
                         logError("Error al sincronizar hacia el servidor.", error);
+                        log(error);
                     });
             })
             .then(function () {
@@ -1704,9 +1709,9 @@ var app = {
                 return $plaedu.context.remote.Cases
                     .filter("it.UserId == userId && it.UserTypeId == userTypeId", { userId: userVM.userId, userTypeId: userVM.userTypeId })
                    .forEach(function (rMyCase) {
-                        rMyCase.Sync = true;
-                        $plaedu.context.Cases.add(rMyCase);
-                    });
+                       rMyCase.Sync = true;
+                       $plaedu.context.Cases.add(rMyCase);
+                   });
             })
             .then(function () {
                 return $plaedu.context.remote.CommentMails
@@ -2083,7 +2088,7 @@ function prepareDownloadPdf(contentId, fileName) {
             fs.root.getDirectory("plaedu", {
                 create: true,
                 exclusive: false
-            }, function(directory) {
+            }, function (directory) {
                 var fileURL = directory.toURL() + "/" + fileName;
                 downloadPdf(contentId);
             });
@@ -2103,10 +2108,10 @@ function downloadPdf(contentId, fileURL, fileName) {
     fileTransfer.download(
         encodeURI(downloadUrl),
         "file://sdcard/download/" + fileName,
-        function(entry) {
+        function (entry) {
             alert("download complete: " + entry.fullPath);
         },
-        function(error) {
+        function (error) {
             alert("download error source " + error.source);
             alert("download error target " + error.target);
             alert("upload error code" + error.code);
@@ -2114,56 +2119,56 @@ function downloadPdf(contentId, fileURL, fileName) {
 }
 
 function downloadAsset(store, fileName, url) {
-        var fileTransfer = new FileTransfer();
-        console.log("About to start transfer");
-        fileTransfer.download(url, store + fileName,
-            function (entry) {
-                console.log("Success!");
-                showToast(store, true);
-                appStart();
-            },
-            function (err) {
-                console.log("Error");
-                console.dir(err);
-            });
-    }
+    var fileTransfer = new FileTransfer();
+    console.log("About to start transfer");
+    fileTransfer.download(url, store + fileName,
+        function (entry) {
+            console.log("Success!");
+            showToast(store, true);
+            appStart();
+        },
+        function (err) {
+            console.log("Error");
+            console.dir(err);
+        });
+}
 
-    //I'm only called when the file exists or has been downloaded.
-    function appStart() {
-        showToast("Success");
-    }
+//I'm only called when the file exists or has been downloaded.
+function appStart() {
+    showToast("Success");
+}
 
-    function fail(error) {
-        console.log(error.code);
-    }
-
-
+function fail(error) {
+    console.log(error.code);
+}
 
 
-    //debugger;
-    ////showToast("Descargando Archivo", true);
 
-    //var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
 
-    //var fileTransfer = new FileTransfer();
+//debugger;
+////showToast("Descargando Archivo", true);
 
-    //fileTransfer.download(
-    //encodeURI(uri),
-    //fileURL,
-    //function (entry) {
-    //    showToast("Success", true);
-    //    console.log("download complete: " + entry.fullPath);
-    //},
-    //function (error) {
-    //    showToast(error, true);
-    //    console.log("download error source " + error.source);
-    //    console.log("download error target " + error.target);
-    //    console.log("upload error code" + error.code);
-    //    //hideToast();
-    //},
-    //false,
-    //{
-    //    headers: {
-    //        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-    //    }
-    //});
+//var uri = IMG_DOWNLOAD_SERVER + "/Pdf/DownloadPdf?contentId=" + contentId;
+
+//var fileTransfer = new FileTransfer();
+
+//fileTransfer.download(
+//encodeURI(uri),
+//fileURL,
+//function (entry) {
+//    showToast("Success", true);
+//    console.log("download complete: " + entry.fullPath);
+//},
+//function (error) {
+//    showToast(error, true);
+//    console.log("download error source " + error.source);
+//    console.log("download error target " + error.target);
+//    console.log("upload error code" + error.code);
+//    //hideToast();
+//},
+//false,
+//{
+//    headers: {
+//        "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+//    }
+//});
