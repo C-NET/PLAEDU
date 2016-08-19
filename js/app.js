@@ -1573,8 +1573,8 @@ var app = {
                 log("Casos Addmany...");
                 $plaedu.context.remote.CommentMails.addMany(pendingCommentMailsArray);
                 log("Comentarios Addmany...");
-                $plaedu.context.remote.Images.addMany(pendingImagesArray);
-                log("imagesnes Addmany.......");
+                //$plaedu.context.remote.Images.addMany(pendingImagesArray);
+                //log("imagesnes Addmany.......");
                 return $plaedu.context.remote.saveChanges()
                     .fail(function (error) {
                         showModalMessage("Error", "Ocurri\u00f3 un error en la sincronizaci\u00f3n. \n Por favor intente nuevamente mas tarde. Gracias.");
