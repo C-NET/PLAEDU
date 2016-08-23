@@ -1297,7 +1297,7 @@ var app = {
         }
 
         if (!WP8) {
-            log("entró para bajar las imagenes")
+            log("entró para bajar las imagenes");
             var fileURL = "cdvfile://localhost/" + lfsTypeStr + "/" + imageEntity.FileName + "_" + imageEntity.ImageUid;
             app.downloadImage(imageEntity, imageTemplate, imagesDiv, fileURL);
         }
@@ -1322,7 +1322,7 @@ var app = {
 
     downloadImage: function (imageEntity, imageTemplate, imagesDiv, fileURL) {
 
-        var uri = IMG_DOWNLOAD_SERVER + "/downloads/download?uid=" + imageEntity.ImageUid;
+        var uri = IMG_DOWNLOAD_SERVER + "downloads/download?uid=" + imageEntity.ImageUid;
 
         log("fileURL: " + encodeURI(fileURL));
 
