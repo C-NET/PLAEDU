@@ -5,10 +5,10 @@ var RIPPLE = window.tinyHippos != undefined;
 var WP8 = navigator.userAgent.match('Trident'); // Trident incluye IE en Windows. 'IEMobile' para WP8.
 
 // Configuración de servidores
-var WEBAPI = "http://10.0.0.25/PlaEduV2.Web/api";
-var WEBAPI_SERVER = WP8 ? "http://10.0.0.25/PlaEduV2.Web" : "http://10.0.0.25/PlaEduV2.Web";
-var IMG_DOWNLOAD_SERVER = WP8 ? "http://10.0.0.25/PlaEduV2.Web/" : "http://10.0.0.25/PlaEduV2.Web/";
-var ODATA_SERVER = (RIPPLE) ? "http://10.0.0.25/PlaEduV2.Web/oData" : WEBAPI_SERVER + "/odata";
+var WEBAPI = "http://fdcotic-001-site4.atempurl.com/api";
+var WEBAPI_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com/" : "http://fdcotic-001-site4.atempurl.com/";
+var IMG_DOWNLOAD_SERVER = WP8 ? "http://fdcotic-001-site4.atempurl.com/" : "http://fdcotic-001-site4.atempurl.com/";
+var ODATA_SERVER = (RIPPLE) ? "http://fdcotic-001-site4.atempurl.com/oData" : WEBAPI_SERVER + "/odata";
 
 // Variables globales
 var gSynchronizing = false;
